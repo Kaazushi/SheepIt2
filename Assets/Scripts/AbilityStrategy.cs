@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class AbilityStrategy : MonoBehaviour {
 
+	[SerializeField]
+	private float _Speed = 5;
+
 	// Movement
 	public virtual void PlayerMovement(GameObject iPlayer)
 	{

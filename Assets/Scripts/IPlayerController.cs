@@ -5,10 +5,8 @@ using UnityEngine.Networking;
 
 public class IPlayerController : NetworkBehaviour {
 
-	[SerializeField]
-	private float _Speed;
 
-	private AbilityStrategy _Strat;
+	private AbilityStrategy _Strat = new SheepStrategy();
 
 
 	
