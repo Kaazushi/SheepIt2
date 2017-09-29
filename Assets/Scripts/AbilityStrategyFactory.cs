@@ -18,15 +18,15 @@ public class AbilityStrategyFactory : MonoBehaviour {
         }
     }
 
-    public AbilityStrategyFactory getAbilityStrategy(AnimalType a_type)
+    public IAbilityStrategy getAbilityStrategy(AnimalType a_type)
     {
         switch (a_type)
         {
-            case AnimalType.MOUTON:
-                return this;
+            case AnimalType.SHEEP:
+                return new SheepStrategy();
 
-            case AnimalType.LOUP:
-                return null;
+            case AnimalType.WOLF:
+                return new WolfStrategy();
 
         }
         return null;

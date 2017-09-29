@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AnimalType { MOUTON, LOUP}
+public enum AnimalType { SHEEP, WOLF}
 
 public class GameManager : MonoBehaviour {
 
