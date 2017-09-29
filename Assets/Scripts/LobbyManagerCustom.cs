@@ -20,4 +20,9 @@ public class LobbyManagerCustom : Prototype.NetworkLobby.LobbyManager
 
     }
 
+    public override void OnStartServer()
+    {
+        Debug.LogError("CACA");
+
+    }
 }
