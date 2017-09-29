@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbilityStrategy : MonoBehaviour {
+public abstract class AbilityStrategy {
 
 	[SerializeField]
 	private float _Speed = 5;
@@ -12,7 +12,7 @@ public abstract class AbilityStrategy : MonoBehaviour {
 	{
 		// Handle simple movement
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		Vector2 playerPos = transform.position;
+		Vector2 playerPos = iPlayer.transform.position;
 
 		if(Vector2.Distance(mousePos, playerPos) > 0.05f)
 		{
@@ -21,21 +21,21 @@ public abstract class AbilityStrategy : MonoBehaviour {
 
 			if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Z))
 			{
-				GetComponent<Rigidbody2D>().velocity = direction * _Speed;
+				iPlayer.GetComponent<Rigidbody2D>().velocity = direction * _Speed;
 			}
 
 			Vector3 movingDir = new Vector3(direction.x, direction.y, 0f);
 			float angle = Mathf.Atan2(movingDir.y, movingDir.x) * Mathf.Rad2Deg;
-			transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+			iPlayer.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 		}
 		else
 		{
-			GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+			iPlayer.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		}
 
 		if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.UpArrow))
 		{
-			GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+			iPlayer.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		}
 	}
 
