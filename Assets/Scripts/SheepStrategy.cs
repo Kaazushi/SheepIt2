@@ -5,7 +5,10 @@ using UnityEngine;
 public class SheepStrategy : AbilityStrategy {
 
 	// Movement
-	public override void PlayerMovement(GameObject iPlayer){}
+	public override void PlayerMovement(GameObject iPlayer)
+	{
+		base.PlayerMovement (iPlayer);
+	}
 
 	// Ability1
 	public override void Ability1(){}
@@ -15,4 +18,5 @@ public class SheepStrategy : AbilityStrategy {
 
 	// Death
 	public override void PlayerDeath(){}
+
 }
