@@ -18,7 +18,7 @@ public class AbilityStrategyFactory : MonoBehaviour {
         }
     }
 
-    public IAbilityStrategy getAbilityStrategy(AnimalType a_type)
+    public AbilityStrategy getAbilityStrategy(AnimalType a_type)
     {
         switch (a_type)
         {
