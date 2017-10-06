@@ -8,3 +8,19 @@ Quand il sais que tout les mecs sont capout, il set les skin et réactive les jo
 
 Commands pour le comptage de point?
 RPC pour la stratégie et skin?
+
+Dans le lobby une ligne où on doit mettre "ready" est un joueur. Le autocreate enleve la creation automatique. et le On serverAddPlayer est appellé à ce moment
+
+Game manager:
+- récupéré tout les joueurs (gameobject) qui ont été instancié
+- crée map de points pour les joueurs
+- lancer un round  <+
+- instaancier un prédateur et le reste en proie, avec RPC
+
+
+- client quand collide
+- predateur : Command Gamemanager gagner des points - La proie se désactive
+
+- gamenager => total  mort == proie
+- si tout le monde n'a pas été prédat +> round début
+Sinon +>fin d epartie
