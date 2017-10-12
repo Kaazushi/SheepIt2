@@ -12,30 +12,39 @@ public class IPlayerController : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcSetSkin(AnimalType type)
 	{
-		gameObject.SetActive (true);
+        if (isLocalPlayer)
+        {
 
-        GameObject skin = SkinFactory.INSTANCE.getSkin (type);
-		skin.transform.SetParent(gameObject.transform, false);
+            gameObject.SetActive(true);
 
-		//set corresponding strategy
-		_Strat = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
+            GameObject skin = SkinFactory.INSTANCE.getSkin(type);
+            skin.transform.SetParent(gameObject.transform, false);
+
+            //set corresponding strategy
+            _Strat = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
+        }
 
 	}
 
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		if (coll.collider.CompareTag("PlayerSkin"))
-		{
-			bool isCollPredator = coll.gameObject.GetComponent<IPlayerController> ().getIsPredator ();
-			//if this object is a predator and the collison is a prey
-			if (!isPredator && isCollPredator) {
-				Debug.Log ("Collided between predator and prey");
-				//desactiver le skin de la proie (à améliorer probablement)
-				Destroy(gameObject.transform.GetChild(0).gameObject);
+        if (isLocalPlayer)
+        {
 
-				GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId);
-			}
-		}
+            if (coll.collider.CompareTag("PlayerSkin"))
+            {
+                bool isCollPredator = coll.gameObject.GetComponent<IPlayerController>().getIsPredator();
+                //if this object is a predator and the collison is a prey
+                if (!isPredator && isCollPredator)
+                {
+                    Debug.Log("Collided between predator and prey");
+                    //desactiver le skin de la proie (à améliorer probablement)
+                    Destroy(gameObject.transform.GetChild(0).gameObject);
+
+                    GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId);
+                }
+            }
+        }
 	}
 
     
@@ -47,7 +56,10 @@ public class IPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcSetPosition(Vector3 a_position)
     {
-        transform.position = a_position;
+        if (isLocalPlayer)
+        {
+            transform.position = a_position;
+        }
     }
 
     // Update is called once per frame
