@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class IPlayerController : NetworkBehaviour {
 
 
-	private AbilityStrategy _Strat;
+	private AbilityStrategy _Strat = new SheepStrategy();
 
 	[ClientRpc]
 	public void RpcSetSkin(AnimalType type)
