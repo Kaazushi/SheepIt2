@@ -34,7 +34,7 @@ public class SkinFactory : MonoBehaviour {
         SkinMap res = m_skinMap.First<SkinMap>((o) => o.m_type == a_type);
         if (res != null)
         {
-            return GameObject.Instantiate(res.m_skin);
+            return GameObject.Instantiate(res.m_skin,Vector3.zero,Quaternion.identity);
         }
         else
         {
