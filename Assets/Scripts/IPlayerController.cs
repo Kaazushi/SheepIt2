@@ -9,12 +9,14 @@ public class IPlayerController : NetworkBehaviour {
 	private AbilityStrategy _Strat = new SheepStrategy();
 
 	[ClientRpc]
-	public void RpcSetSkin(Skin skin, AbilityStrategy strat)
+	public void RpcSetSkin(AnimalType type)
 	{
 		//change player skin
+		Skin skin = SkinFactory.INSTANCE.getSkin (type);
 		gameObject.transform.SetParent(skin.gameObject.transform);
+
+
 		//set corresponding strategy
-		_Strat = strat;
 	}
 
 
