@@ -12,6 +12,8 @@ public class GameManager : NetworkBehaviour
     public static GameManager INSTANCE;
     GameObject[] m_players;
     Dictionary<NetworkInstanceId, int> m_points = new Dictionary<NetworkInstanceId, int>();
+    NetworkStartPosition[] spawnPoints;
+
     int m_preda = -1;
 
     void Start()
@@ -42,6 +44,7 @@ public class GameManager : NetworkBehaviour
         yield return new WaitForSeconds(2);
 
         m_players = GameObject.FindGameObjectsWithTag("Player");
+        spawnPoints = FindObjectsOfType<NetworkStartPosition>();
         foreach (GameObject go in m_players)
         {
             if (isServer)
@@ -72,12 +75,12 @@ public class GameManager : NetworkBehaviour
             if(i == m_preda)
             {
                 type = AnimalType.WOLF;
-                m_players[m_preda].GetComponent<IPlayerController>().RpcSetPredator(true);
+                m_players[i].GetComponent<IPlayerController>().RpcSetPredator(true);
             }
             else
             {
                 type = AnimalType.SHEEP;
-                m_players[m_preda].GetComponent<IPlayerController>().RpcSetPredator(false);
+                m_players[i].GetComponent<IPlayerController>().RpcSetPredator(false);
 
             }
 
@@ -88,6 +91,7 @@ public class GameManager : NetworkBehaviour
     [Command]
     public void CmdAddPoint(NetworkInstanceId a_player)
     {
+        Debug.Log("POIIIINT pour " + a_player);
         m_points[a_player]++;
         if (m_points[a_player] == m_players.Length -1)
         {
