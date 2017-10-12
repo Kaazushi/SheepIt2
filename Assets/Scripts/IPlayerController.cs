@@ -37,14 +37,20 @@ public class IPlayerController : NetworkBehaviour {
 		}
 	}
 
-
-	[ClientRpc]
+    
+    [ClientRpc]
 	public void RpcSetPredator (bool isPred){
 		isPredator = isPred;
 	}
 
-	// Update is called once per frame
-	void Update () {
+    [ClientRpc]
+    public void RpcSetPosition(Vector3 a_position)
+    {
+        transform.position = a_position;
+    }
+
+    // Update is called once per frame
+    void Update () {
 		if (!isLocalPlayer)
 		{
 			return;
