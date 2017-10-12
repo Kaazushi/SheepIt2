@@ -13,7 +13,7 @@ public class IPlayerController : NetworkBehaviour {
 	{
 
         GameObject skin = SkinFactory.INSTANCE.getSkin (type);
-		skin.transform.SetParent(gameObject.transform);
+		skin.transform.SetParent(gameObject.transform, false);
 
 		//set corresponding strategy
 		_Strat = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
