@@ -12,40 +12,31 @@ public class IPlayerController : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcSetSkin(AnimalType type)
 	{
-        if (isLocalPlayer)
-        {
 			if (gameObject.GetComponentInChildren<Skin> () != null) {
 				Destroy (gameObject.GetComponentInChildren<Skin> ().gameObject);
 			}
-            
-
 
             GameObject skin = SkinFactory.INSTANCE.getSkin(type);
             skin.transform.SetParent(gameObject.transform, false);
 
             //set corresponding strategy
             _Strat = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
-        }
 
 	}
 
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-        if (isLocalPlayer)
+        if (coll.collider.CompareTag("PlayerSkin"))
         {
-
-            if (coll.collider.CompareTag("PlayerSkin"))
+            bool isCollPredator = coll.gameObject.GetComponent<IPlayerController>().getIsPredator();
+            //if this object is a predator and the collison is a prey
+            if (!isPredator && isCollPredator)
             {
-                bool isCollPredator = coll.gameObject.GetComponent<IPlayerController>().getIsPredator();
-                //if this object is a predator and the collison is a prey
-                if (!isPredator && isCollPredator)
-                {
-                    Debug.Log("Collided between predator and prey");
-                    //desactiver le skin de la proie (à améliorer probablement)
-					Destroy(gameObject.GetComponentInChildren<Skin>().gameObject);
+                Debug.Log("Collided between predator and prey");
+                //desactiver le skin de la proie (à améliorer probablement)
+				Destroy(gameObject.GetComponentInChildren<Skin>().gameObject);
 
-                    GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId);
-                }
+                GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId);
             }
         }
 	}
