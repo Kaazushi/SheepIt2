@@ -5,7 +5,9 @@ using UnityEngine;
 public class WolfStrategy : AbilityStrategy {
 
 	// Movement
-	public override void PlayerMovement(GameObject iPlayer){}
+	public override void PlayerMovement(GameObject iPlayer){
+		base.PlayerMovement (iPlayer);
+	}
 
 	// Ability1
 	public override void Ability1(){}
