@@ -34,14 +34,28 @@ public class GameManager : NetworkBehaviour
 
     public void BeginGame()
     {
+        StartCoroutine(BeginGameCoroutine());
+    }
+
+    IEnumerator BeginGameCoroutine()
+    {
+        yield return new WaitForSeconds(2);
+
         m_players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject go in m_players)
         {
-            
+            if (isServer)
+            {
+                Debug.Log(go.name + "  " + go.GetComponent<NetworkIdentity>().netId);
+
+            }
+
+
             m_points[go.GetComponent<NetworkIdentity>().netId] = 0;
         }
         m_preda = -1;
         StartRound();
+
     }
 
     private void StartRound()
@@ -64,6 +78,7 @@ public class GameManager : NetworkBehaviour
             {
                 type = AnimalType.SHEEP;
             }
+
             m_players[i].GetComponent<IPlayerController>().RpcSetSkin(type);
         }
     }

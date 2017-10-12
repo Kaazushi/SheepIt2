@@ -11,8 +11,8 @@ public class IPlayerController : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcSetSkin(AnimalType type)
 	{
-		//change player skin
-		GameObject skin = SkinFactory.INSTANCE.getSkin (type);
+        //change player skin
+        GameObject skin = SkinFactory.INSTANCE.getSkin (type);
 		gameObject.transform.SetParent(skin.transform);
 
 
