@@ -25,12 +25,14 @@ public class IPlayerController : NetworkBehaviour {
 	{
 		if (coll.collider.CompareTag("PlayerSkin"))
 		{
-			Debug.Log ("Collided with other player");
 			bool isCollPredator = coll.gameObject.GetComponent<IPlayerController> ().getIsPredator ();
 			//if this object is a predator and the collison is a prey
 			if (isPredator && !isCollPredator) {
+				Debug.Log ("Collided between predator and prey");
+				//desactiver le skin de la proie (à améliorer probablement)
+				coll.gameObject.transform.GetChild(0).gameObject.SetActive (false);
+
 				GameManager.INSTANCE.CmdAddPoint(gameObject.GetComponent<NetworkIdentity>().netId);
-				coll.gameObject.SetActive (false);
 			}
 		}
 	}
