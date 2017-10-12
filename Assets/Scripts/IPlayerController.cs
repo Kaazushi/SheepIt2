@@ -14,8 +14,10 @@ public class IPlayerController : NetworkBehaviour {
 	{
         if (isLocalPlayer)
         {
-
-            gameObject.SetActive(true);
+			if (gameObject.GetComponentInChildren<Skin> () != null) {
+				Destroy (gameObject.GetComponentInChildren<Skin> ().gameObject);
+			}
+            
 
             GameObject skin = SkinFactory.INSTANCE.getSkin(type);
             skin.transform.SetParent(gameObject.transform, false);
@@ -39,7 +41,7 @@ public class IPlayerController : NetworkBehaviour {
                 {
                     Debug.Log("Collided between predator and prey");
                     //desactiver le skin de la proie (à améliorer probablement)
-                    Destroy(gameObject.transform.GetChild(0).gameObject);
+					Destroy(gameObject.GetComponentInChildren<Skin>().gameObject);
 
                     GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId);
                 }
