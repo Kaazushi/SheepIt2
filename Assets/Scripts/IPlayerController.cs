@@ -12,9 +12,6 @@ public class IPlayerController : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcSetSkin(AnimalType type)
 	{
-        if (isLocalPlayer)
-        {
-
             gameObject.SetActive(true);
 
             GameObject skin = SkinFactory.INSTANCE.getSkin(type);
@@ -22,14 +19,10 @@ public class IPlayerController : NetworkBehaviour {
 
             //set corresponding strategy
             _Strat = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
-        }
-
 	}
 
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-        if (isLocalPlayer)
-        {
 
             if (coll.collider.CompareTag("PlayerSkin"))
             {
@@ -44,7 +37,7 @@ public class IPlayerController : NetworkBehaviour {
                     GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId);
                 }
             }
-        }
+        
 	}
 
     
