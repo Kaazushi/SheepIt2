@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class IPlayerController : NetworkBehaviour {
 
+
 	private bool isPredator = false;
 	private AbilityStrategy _Strat = new SheepStrategy();
 
@@ -27,12 +28,12 @@ public class IPlayerController : NetworkBehaviour {
 		{
 			bool isCollPredator = coll.gameObject.GetComponent<IPlayerController> ().getIsPredator ();
 			//if this object is a predator and the collison is a prey
-			if (isPredator && !isCollPredator) {
+			if (!isPredator && isCollPredator) {
 				Debug.Log ("Collided between predator and prey");
 				//desactiver le skin de la proie (à améliorer probablement)
-				coll.gameObject.transform.GetChild(0).gameObject.Destroy();
+				Destroy(gameObject.transform.GetChild(0).gameObject);
 
-				GameManager.INSTANCE.CmdAddPoint(gameObject.GetComponent<NetworkIdentity>().netId);
+				GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId);
 			}
 		}
 	}
