@@ -15,6 +15,7 @@ public class GameManager : NetworkBehaviour
     NetworkStartPosition[] spawnPoints;
 
     int m_preda = -1;
+    int currentSpawn = 0;
 
     void Start()
     {
@@ -45,6 +46,7 @@ public class GameManager : NetworkBehaviour
 
         m_players = GameObject.FindGameObjectsWithTag("Player");
         spawnPoints = FindObjectsOfType<NetworkStartPosition>();
+        currentSpawn = 0;
         foreach (GameObject go in m_players)
         {
             if (isServer)
@@ -67,6 +69,7 @@ public class GameManager : NetworkBehaviour
         if (m_preda >= m_players.Length)
         {
             //tout le monde a été prédateur
+            BeginGame();
             return;
         }
         for(int i = 0; i < m_players.Length; i++)
@@ -85,6 +88,9 @@ public class GameManager : NetworkBehaviour
             }
 
             m_players[i].GetComponent<IPlayerController>().RpcSetSkin(type);
+            m_players[i].GetComponent<IPlayerController>().RpcSetPosition(spawnPoints[currentSpawn%spawnPoints.Length].transform.position);
+            currentSpawn++;
+
         }
     }
 
