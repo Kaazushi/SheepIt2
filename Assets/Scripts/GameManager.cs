@@ -72,11 +72,13 @@ public class GameManager : NetworkBehaviour
             if(i == m_preda)
             {
                 type = AnimalType.WOLF;
-                //m_players[m_preda].GetComponent<IPlayerController>().SetPreda(true);
+                m_players[m_preda].GetComponent<IPlayerController>().RpcSetPredator(true);
             }
             else
             {
                 type = AnimalType.SHEEP;
+                m_players[m_preda].GetComponent<IPlayerController>().RpcSetPredator(false);
+
             }
 
             m_players[i].GetComponent<IPlayerController>().RpcSetSkin(type);
