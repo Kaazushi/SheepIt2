@@ -86,7 +86,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [Command]
-    void CmdAddPoint(NetworkInstanceId a_player)
+    public void CmdAddPoint(NetworkInstanceId a_player)
     {
         m_points[a_player]++;
         if (m_points[a_player] == m_players.Length -1)

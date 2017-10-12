@@ -21,6 +21,20 @@ public class IPlayerController : NetworkBehaviour {
 
 	}
 
+	void OnCollisionEnter2D(Collision2D coll)
+	{
+		if (coll.collider.CompareTag("PlayerSkin"))
+		{
+			Debug.Log ("Collided with other player");
+			bool isCollPredator = coll.gameObject.GetComponent<IPlayerController> ().getIsPredator ();
+			//if this object is a predator and the collison is a prey
+			if (isPredator || !isCollPredator) {
+				GameManager.INSTANCE.CmdAddPoint(gameObject.GetComponent<NetworkIdentity>().netId);
+				coll.gameObject.SetActive (false);
+			}
+		}
+	}
+
 
 	[ClientRpc]
 	public void RpcSetPredator (bool isPred){
@@ -36,5 +50,10 @@ public class IPlayerController : NetworkBehaviour {
 	
 		_Strat.PlayerMovement(gameObject);
 
+	}
+
+
+	public bool getIsPredator(){
+		return isPredator;
 	}
 }
