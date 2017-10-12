@@ -6,17 +6,19 @@ using UnityEngine.Networking;
 public class IPlayerController : NetworkBehaviour {
 
 
-	private AbilityStrategy _Strat = new SheepStrategy();
+	private AbilityStrategy _Strat;
 
 	[ClientRpc]
 	public void RpcSetSkin(AnimalType type)
 	{
 		//change player skin
 		GameObject skin = SkinFactory.INSTANCE.getSkin (type);
-		gameObject.transform.SetParent(skin.transform);
 
+		skin.transform.SetParent(gameObject.transform);
 
 		//set corresponding strategy
+		_Strat = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
+
 	}
 
 
