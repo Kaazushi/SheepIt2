@@ -19,6 +19,7 @@ public class IPlayerController : NetworkBehaviour {
 			}
             
 
+
             GameObject skin = SkinFactory.INSTANCE.getSkin(type);
             skin.transform.SetParent(gameObject.transform, false);
 
