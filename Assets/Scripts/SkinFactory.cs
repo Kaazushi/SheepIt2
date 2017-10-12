@@ -8,7 +8,7 @@ using System.Linq;
 public class SkinMap
 {
     public AnimalType m_type;
-    public Skin m_skin;
+    public GameObject m_skin;
 }
 
 public class SkinFactory : MonoBehaviour {
@@ -29,12 +29,12 @@ public class SkinFactory : MonoBehaviour {
         }
     }
 
-    public Skin getSkin(AnimalType a_type, int a_id = 0)
+    public GameObject getSkin(AnimalType a_type, int a_id = 0)
     {
         SkinMap res = m_skinMap.First<SkinMap>((o) => o.m_type == a_type);
         if (res != null)
         {
-            return res.m_skin;
+            return GameObject.Instantiate(res.m_skin);
         }
         else
         {

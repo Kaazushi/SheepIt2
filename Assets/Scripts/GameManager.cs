@@ -34,7 +34,6 @@ public class GameManager : NetworkBehaviour
 
     public void BeginGame()
     {
-       
         m_players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject go in m_players)
         {
