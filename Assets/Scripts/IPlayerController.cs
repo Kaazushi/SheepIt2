@@ -30,7 +30,7 @@ public class IPlayerController : NetworkBehaviour {
 			if (isPredator && !isCollPredator) {
 				Debug.Log ("Collided between predator and prey");
 				//desactiver le skin de la proie (à améliorer probablement)
-				coll.gameObject.transform.GetChild(0).gameObject.SetActive (false);
+				coll.gameObject.transform.GetChild(0).gameObject.Destroy();
 
 				GameManager.INSTANCE.CmdAddPoint(gameObject.GetComponent<NetworkIdentity>().netId);
 			}
