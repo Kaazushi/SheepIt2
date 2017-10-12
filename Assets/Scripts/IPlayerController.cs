@@ -28,7 +28,7 @@ public class IPlayerController : NetworkBehaviour {
 			Debug.Log ("Collided with other player");
 			bool isCollPredator = coll.gameObject.GetComponent<IPlayerController> ().getIsPredator ();
 			//if this object is a predator and the collison is a prey
-			if (isPredator || !isCollPredator) {
+			if (isPredator && !isCollPredator) {
 				GameManager.INSTANCE.CmdAddPoint(gameObject.GetComponent<NetworkIdentity>().netId);
 				coll.gameObject.SetActive (false);
 			}
