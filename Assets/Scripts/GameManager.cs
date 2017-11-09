@@ -12,6 +12,7 @@ public class GameManager : NetworkBehaviour
     public static GameManager INSTANCE;
     GameObject[] m_players;
     Dictionary<NetworkInstanceId, int> m_points = new Dictionary<NetworkInstanceId, int>();
+    Dictionary<NetworkInstanceId, GameObject> m_dictionnaryPlayers = new Dictionary<NetworkInstanceId, GameObject>();
     NetworkStartPosition[] spawnPoints;
 
     int m_preda = -1;
@@ -55,7 +56,7 @@ public class GameManager : NetworkBehaviour
 
             }
 
-
+            m_dictionnaryPlayers[go.GetComponent<NetworkIdentity>().netId] = go;
             m_points[go.GetComponent<NetworkIdentity>().netId] = 0;
         }
         m_preda = -1;
@@ -78,28 +79,29 @@ public class GameManager : NetworkBehaviour
             if(i == m_preda)
             {
                 type = AnimalType.WOLF;
-                m_players[i].GetComponent<IPlayerController>().RpcSetPredator(true);
+                m_players[i].GetComponent<PlayerController>().RpcSetPredator(true);
             }
             else
             {
                 type = AnimalType.SHEEP;
-                m_players[i].GetComponent<IPlayerController>().RpcSetPredator(false);
+                m_players[i].GetComponent<PlayerController>().RpcSetPredator(false);
 
             }
 
-            m_players[i].GetComponent<IPlayerController>().RpcSetSkin(type);
-            m_players[i].GetComponent<IPlayerController>().RpcSetPosition(spawnPoints[currentSpawn%spawnPoints.Length].transform.position);
+            m_players[i].GetComponent<PlayerController>().RpcSetSkin(type);
+            m_players[i].GetComponent<PlayerController>().RpcSetPosition(spawnPoints[currentSpawn%spawnPoints.Length].transform.position);
             currentSpawn++;
 
         }
     }
 
     [Command]
-    public void CmdAddPoint(NetworkInstanceId a_player)
+    public void CmdAddPoint(NetworkInstanceId a_predator, NetworkInstanceId a_victim)
     {
-        Debug.Log("POIIIINT pour " + a_player);
-        m_points[a_player]++;
-        if (m_points[a_player] == m_players.Length -1)
+        Debug.Log("POIIIINT pour " + a_predator);
+        m_dictionnaryPlayers[a_victim].GetComponent<PlayerController>().RpcDestroyYourSkin();
+        m_points[a_predator]++;
+        if (m_points[a_predator] == m_players.Length -1)
         {
             StartRound();
         }

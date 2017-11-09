@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class IPlayerController : NetworkBehaviour {
+public class PlayerController : NetworkBehaviour {
 
 
 	private bool isPredator = false;
@@ -28,20 +28,25 @@ public class IPlayerController : NetworkBehaviour {
 	{
         if (coll.collider.CompareTag("PlayerSkin"))
         {
-            bool isCollPredator = coll.gameObject.GetComponent<IPlayerController>().getIsPredator();
+            bool isCollPredator = coll.gameObject.GetComponent<PlayerController>().getIsPredator();
             //if this object is a predator and the collison is a prey
             if (!isPredator && isCollPredator)
             {
-                Debug.Log("Collided between predator and prey");
-                //desactiver le skin de la proie (à améliorer probablement)
-				Destroy(gameObject.GetComponentInChildren<Skin>().gameObject);
 
-                GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId);
+                Debug.Log("Collided between predator and prey");
+                GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId, gameObject.GetComponent<NetworkIdentity>().netId);
             }
         }
 	}
 
-    
+    [ClientRpc]
+    public void RpcDestroyYourSkin()
+    {
+        //desactiver le skin de la proie (à améliorer probablement)
+        Destroy(gameObject.GetComponentInChildren<Skin>().gameObject);
+    }
+
+
     [ClientRpc]
 	public void RpcSetPredator (bool isPred){
 		isPredator = isPred;
