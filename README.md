@@ -11,16 +11,13 @@ RPC pour la stratégie et skin?
 
 Dans le lobby une ligne où on doit mettre "ready" est un joueur. Le autocreate enleve la creation automatique. et le On serverAddPlayer est appellé à ce moment
 
+TODO:
 Game manager:
-- récupéré tout les joueurs (gameobject) qui ont été instancié
-- crée map de points pour les joueurs
-- lancer un round  <+
-- instaancier un prédateur et le reste en proie, avec RPC
+- récupéré tout les joueurs qui ont été instancié avec playerControllerId
+- recrée map des joueurs (en gardant LobbyPlayerInfo?) et des points en utilisant cet ID
+- comptage des points avec couleur pour indiquer chaque player
 
 
-- client quand collide
-- predateur : Command Gamemanager gagner des points - La proie se désactive
-
-- gamenager => total  mort == proie
-- si tout le monde n'a pas été prédat +> round début
-Sinon +>fin d epartie
+NEXT:
+- timer pour les rounds
+- génération de map
