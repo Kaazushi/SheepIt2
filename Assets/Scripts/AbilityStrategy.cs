@@ -36,7 +36,9 @@ public abstract class AbilityStrategy {
 		if (!Input.GetKey(KeyCode.Z) && !Input.GetKey(KeyCode.UpArrow))
 		{
 			iPlayer.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-		}
+			iPlayer.GetComponent<Rigidbody2D>().angularVelocity = 0;
+			//iPlayer.GetComponent<Rigidbody2D>().angularDrag = 1;
+        }
 	}
 
 	// Ability1

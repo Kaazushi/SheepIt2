@@ -32,7 +32,7 @@ public class PlayerController : NetworkBehaviour {
             //if this object is a predator and the collison is a prey
             if (!isPredator && isCollPredator)
             {
-                RpcDestroyYourSkin();
+                DestroyYourSkin();
                 Debug.Log("Collided between predator and prey");
                 GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId, gameObject.GetComponent<NetworkIdentity>().netId);
             }
@@ -41,6 +41,11 @@ public class PlayerController : NetworkBehaviour {
 
     [ClientRpc]
     public void RpcDestroyYourSkin()
+    {
+        DestroyYourSkin();
+    }
+
+    void  DestroyYourSkin()
     {
         //desactiver le skin de la proie (à améliorer probablement)
         Skin skin = gameObject.GetComponentInChildren<Skin>();
@@ -73,8 +78,7 @@ public class PlayerController : NetworkBehaviour {
 		}
 	
 		_Strat.PlayerMovement(gameObject);
-
-	}
+    }
 
 
 	public bool getIsPredator(){
