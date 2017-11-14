@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Prototype.NetworkLobby;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -20,6 +21,7 @@ public class LobbyManagerCustom : Prototype.NetworkLobby.LobbyManager
 
     public override void OnServerSceneChanged(string sceneName)
     {
+        //LobbyPlayerListCustom._instance.
         base.OnServerSceneChanged(sceneName);
         GameManager.INSTANCE.BeginGame();
 

@@ -55,7 +55,7 @@ public class GameManager : NetworkBehaviour
                 Debug.Log(go.name + "  " + go.GetComponent<NetworkIdentity>().netId);
 
             }
-
+            Debug.Log(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
             m_dictionnaryPlayers[go.GetComponent<NetworkIdentity>().netId] = go;
             m_points[go.GetComponent<NetworkIdentity>().netId] = 0;
         }

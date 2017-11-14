@@ -51,7 +51,7 @@ public class PlayerController : NetworkBehaviour {
         Skin skin = gameObject.GetComponentInChildren<Skin>();
         if (skin)
         {
-            DestroyImmediate(skin.gameObject);
+            Destroy(skin.gameObject);
         }
     }
 
