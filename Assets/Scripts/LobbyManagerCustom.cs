@@ -21,7 +21,12 @@ public class LobbyManagerCustom : Prototype.NetworkLobby.LobbyManager
 
     public override void OnServerSceneChanged(string sceneName)
     {
-        //LobbyPlayerListCustom._instance.
+		List<LobbyPlayer> _lobbyPlayerList = LobbyPlayerListCustom.GetInstance ().GetPlayerList ();
+		foreach(LobbyPlayer pl in _lobbyPlayerList){
+			Debug.Log("Player Info : ID " + pl.connectionToClient.connectionId);
+			GameManager.INSTANCE.m_playerList.Add (new PlayerInfo(pl.connectionToClient.connectionId, pl.playerColor, pl.playerName));
+		}
+        
         base.OnServerSceneChanged(sceneName);
         GameManager.INSTANCE.BeginGame();
 

@@ -11,8 +11,10 @@ public class GameManager : NetworkBehaviour
 
     public static GameManager INSTANCE;
     GameObject[] m_players;
-    Dictionary<NetworkInstanceId, int> m_points = new Dictionary<NetworkInstanceId, int>();
-    Dictionary<NetworkInstanceId, GameObject> m_dictionnaryPlayers = new Dictionary<NetworkInstanceId, GameObject>();
+	Dictionary<int, int> m_points = new Dictionary<int, int>();
+    Dictionary<int, GameObject> m_dictionnaryPlayers = new Dictionary<int, GameObject>();
+	public List<PlayerInfo> m_playerList = new List<PlayerInfo>();
+
     NetworkStartPosition[] spawnPoints;
 
     int m_preda = -1;
@@ -52,12 +54,12 @@ public class GameManager : NetworkBehaviour
         {
             if (isServer)
             {
-                Debug.Log(go.name + "  " + go.GetComponent<NetworkIdentity>().netId);
+				Debug.Log(go.name + "  " + go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
 
             }
             Debug.Log(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
-            m_dictionnaryPlayers[go.GetComponent<NetworkIdentity>().netId] = go;
-            m_points[go.GetComponent<NetworkIdentity>().netId] = 0;
+            m_dictionnaryPlayers[go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId] = go;
+			m_points[go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId] = 0;
         }
         m_preda = -1;
         StartRound();
@@ -96,7 +98,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [Command]
-    public void CmdAddPoint(NetworkInstanceId a_predator, NetworkInstanceId a_victim)
+    public void CmdAddPoint(int a_predator, int a_victim)
     {
         Debug.Log("POIIIINT pour " + a_predator);
         m_dictionnaryPlayers[a_victim].GetComponent<PlayerController>().RpcDestroyYourSkin();

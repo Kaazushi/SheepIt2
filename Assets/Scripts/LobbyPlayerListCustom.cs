@@ -5,6 +5,10 @@ using Prototype.NetworkLobby;
 
 public class LobbyPlayerListCustom : Prototype.NetworkLobby.LobbyPlayerList
 {
+	public static LobbyPlayerListCustom GetInstance(){
+		return (LobbyPlayerListCustom)_instance;
+	}
+
 
     public List<LobbyPlayer>  GetPlayerList()
     {

@@ -34,7 +34,7 @@ public class PlayerController : NetworkBehaviour {
             {
                 DestroyYourSkin();
                 Debug.Log("Collided between predator and prey");
-                GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().netId, gameObject.GetComponent<NetworkIdentity>().netId);
+				GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
             }
         }
 	}
