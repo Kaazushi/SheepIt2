@@ -13,7 +13,7 @@ Dans le lobby une ligne où on doit mettre "ready" est un joueur. Le autocreate 
 
 TODO:
 Game manager:
-- récupéré tout les joueurs qui ont été instancié avec playerControllerId
+- récupéré tout les joueurs qui ont été instancié avec NetworkIdentity.clientAuthorityOwner (.connectionId)
 - recrée map des joueurs (en gardant LobbyPlayerInfo?) et des points en utilisant cet ID
 - comptage des points avec couleur pour indiquer chaque player
 
