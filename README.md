@@ -20,4 +20,8 @@ Game manager:
 
 NEXT:
 - timer pour les rounds
+- map plus grande
+- refactor du code
+- ability mouton
+- ability loup
 - génération de map
