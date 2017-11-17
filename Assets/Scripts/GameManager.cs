@@ -11,8 +11,6 @@ public class GameManager : NetworkBehaviour
 
     public static GameManager INSTANCE;
     GameObject[] m_players;
-	Dictionary<int, int> m_points = new Dictionary<int, int>();
-    Dictionary<int, GameObject> m_dictionnaryPlayers = new Dictionary<int, GameObject>();
 	public List<PlayerInfo> m_playerList = new List<PlayerInfo>();
 
     NetworkStartPosition[] spawnPoints;
@@ -55,11 +53,10 @@ public class GameManager : NetworkBehaviour
             if (isServer)
             {
                 Debug.Log(go.name + "  " + go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
-
             }
             Debug.Log(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
-            m_dictionnaryPlayers[go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId] = go;
-            m_points[go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId] = 0;
+			GetPlayerInfo (go.GetComponent<NetworkIdentity> ().clientAuthorityOwner.connectionId)._playerController = go.GetComponent<PlayerController> ();
+
             Debug.Log(m_playerList.Count);
             go.GetComponent<PlayerController>().RpcDisplayMyColor(m_playerList.Find(o => o._playerID == go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId)._playercolor);
         }
@@ -102,13 +99,28 @@ public class GameManager : NetworkBehaviour
     [Command]
     public void CmdAddPoint(int a_predator, int a_victim)
     {
-        Debug.Log("POIIIINT pour " + a_predator);
-        m_dictionnaryPlayers[a_victim].GetComponent<PlayerController>().RpcDestroyYourSkin();
-        m_points[a_predator]++;
-        if (m_points[a_predator] == m_players.Length -1)
+        Debug.Log("POINT pour " + a_predator);
+		GetPlayerInfo(a_victim)._playerController.RpcDestroyYourSkin();
+		PlayerInfo predaInfos = GetPlayerInfo (a_predator);
+		predaInfos._playerScore++;
+
+		//Temp round stoping criteria
+		if (predaInfos._playerScore == m_players.Length -1)
         {
             StartRound();
         }
     }
+
+	//TODO: Throws Exception (when player not found)
+	public PlayerInfo GetPlayerInfo(int iConnectionID){
+		PlayerInfo target;
+		target = m_playerList.Find (o=>o._playerID == iConnectionID);
+
+		// Envoyer exception si target == null
+		if (target == null) {
+			Debug.Log ("Player " + iConnectionID + " not found!");
+		}
+		return target;
+	}
 
 }
