@@ -62,6 +62,15 @@ public class PlayerController : NetworkBehaviour {
 	}
 
     [ClientRpc]
+    public void RpcDisplayMyColor(Color color)
+    {
+        if (isLocalPlayer)
+        {
+            Camera.main.backgroundColor = color;
+        }
+    }
+
+    [ClientRpc]
     public void RpcSetPosition(Vector3 a_position)
     {
         if (isLocalPlayer)
