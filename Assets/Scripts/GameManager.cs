@@ -54,12 +54,14 @@ public class GameManager : NetworkBehaviour
         {
             if (isServer)
             {
-				Debug.Log(go.name + "  " + go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
+                Debug.Log(go.name + "  " + go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
 
             }
             Debug.Log(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
             m_dictionnaryPlayers[go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId] = go;
-			m_points[go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId] = 0;
+            m_points[go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId] = 0;
+            Debug.Log(m_playerList.Count);
+            go.GetComponent<PlayerController>().RpcDisplayMyColor(m_playerList.Find(o => o._playerID == go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId)._playercolor);
         }
         m_preda = -1;
         StartRound();
