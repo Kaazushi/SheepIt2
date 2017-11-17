@@ -15,7 +15,7 @@ public class MenuEntry
 public class MenuManager : MonoBehaviour {
 	[SerializeField]
 	List<MenuEntry> m_listMenu;
-	static MenuManager INSTANCE;
+	static public MenuManager INSTANCE;
 	MENUTYPE m_currentMenu = MENUTYPE.NOTHING;
 	[SerializeField]
 	MENUTYPE m_startMenu;
@@ -44,31 +44,35 @@ public class MenuManager : MonoBehaviour {
 		MenuEntry menuEntry = INSTANCE.m_listMenu.Find(x => x.m_type == INSTANCE.m_currentMenu);
 		if (menuEntry != null)
 		{
-			GetComponent<Image>().enabled = menuEntry.m_menu.DisplayBack();
-		}
+			MenuBackGround.INSTANCE.SetAlpha( menuEntry.m_menu.GetAlphaBack() );
+        }
+        else
+        {
+            MenuBackGround.INSTANCE.SetAlpha(0.0f);
+        }
 
-	}
+    }
 
-	public static void OpenMenu(MENUTYPE a_type)
+	public void OpenMenu(MENUTYPE a_type)
 	{
 		CloseMenu();
-		MenuEntry menuEntry = INSTANCE.m_listMenu.Find(x => x.m_type == a_type);
+		MenuEntry menuEntry = m_listMenu.Find(x => x.m_type == a_type);
 		if (menuEntry != null)
 		{
 			menuEntry.m_menu.gameObject.SetActive(true);
-			INSTANCE.m_currentMenu = a_type;
+			m_currentMenu = a_type;
 		}
 
 	}
 
 
-	public static void CloseMenu()
+	public void CloseMenu()
 	{
-		MenuEntry menuEntry = INSTANCE.m_listMenu.Find(x => x.m_type == INSTANCE.m_currentMenu);
+		MenuEntry menuEntry = m_listMenu.Find(x => x.m_type == m_currentMenu);
 		if(menuEntry != null)
 		{
 			menuEntry.m_menu.gameObject.SetActive(false);
-			INSTANCE.m_currentMenu = MENUTYPE.NOTHING;
+			m_currentMenu = MENUTYPE.NOTHING;
 		}
 	}
 
