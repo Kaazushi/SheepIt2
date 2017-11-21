@@ -126,4 +126,9 @@ public class GameManager : NetworkBehaviour
 		return target;
 	}
 
+
+	[Command]
+	public List<PlayerInfo> GetPlayerInfoList(){
+		return m_playerList;
+	}
 }
