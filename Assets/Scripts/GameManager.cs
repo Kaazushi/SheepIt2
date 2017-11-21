@@ -20,7 +20,7 @@ public class GameManager : NetworkBehaviour
 
     void Start()
     {
-        if (INSTANCE != null && INSTANCE != this)
+        if (INSTANCE != null && INSTANCE != this && isServer)
         {
             DestroyImmediate(gameObject);
         }
@@ -44,6 +44,7 @@ public class GameManager : NetworkBehaviour
     IEnumerator BeginGameCoroutine()
     {
         yield return new WaitForSeconds(2);
+        Debug.Log("BEGIN GAME");
 
         m_players = GameObject.FindGameObjectsWithTag("Player");
         spawnPoints = FindObjectsOfType<NetworkStartPosition>();
@@ -54,10 +55,10 @@ public class GameManager : NetworkBehaviour
             {
                 Debug.Log(go.name + "  " + go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
             }
-            Debug.Log(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
-			GetPlayerInfo (go.GetComponent<NetworkIdentity> ().clientAuthorityOwner.connectionId)._playerController = go.GetComponent<PlayerController> ();
+            PlayerInfo playerInfo = GetPlayerInfo(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
+            playerInfo._playerController = go.GetComponent<PlayerController> ();
+            playerInfo._playerScore = 0;
 
-            Debug.Log(m_playerList.Count);
             go.GetComponent<PlayerController>().RpcDisplayMyColor(m_playerList.Find(o => o._playerID == go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId)._playercolor);
         }
         m_preda = -1;
@@ -104,8 +105,10 @@ public class GameManager : NetworkBehaviour
 		PlayerInfo predaInfos = GetPlayerInfo (a_predator);
 		predaInfos._playerScore++;
 
-		//Temp round stoping criteria
-		if (predaInfos._playerScore == m_players.Length -1)
+        Debug.Log("PILOU : " + predaInfos._playerScore + "    " + (m_players.Length - 1));
+
+        //Temp round stoping criteria
+        if (predaInfos._playerScore == m_players.Length -1)
         {
             StartRound();
         }
