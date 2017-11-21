@@ -6,6 +6,7 @@ public class ScoreMenu : Menu {
     private void OnEnable()
     {
         //start coroutine wich get score from gamemanager
+       //  Debug.Log(GameManager.INSTANCE.m_playerList);
     }
 
     private void OnDisable()

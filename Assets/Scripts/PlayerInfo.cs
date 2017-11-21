@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerInfo {
+public class PlayerInfo /*: NetworkBehaviour _ pour partager et sync de partout */
+{
 
 	public int _playerID;
 	public Color _playercolor;

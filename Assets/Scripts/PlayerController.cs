@@ -85,6 +85,11 @@ public class PlayerController : NetworkBehaviour {
 		{
 			return;
 		}
+
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            MenuManager.INSTANCE.OpenMenu(MENUTYPE.SCORE);
+        }
 	
 		_Strat.PlayerMovement(gameObject);
     }
