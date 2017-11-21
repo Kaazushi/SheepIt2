@@ -132,12 +132,9 @@ public class GameManager : NetworkBehaviour
 		return target;
 	}
 
-<<<<<<< HEAD
 
 	[Command]
 	public List<PlayerInfo> CmdGetPlayerInfoList(){
 		return m_playerList;
 	}
-=======
->>>>>>> 583563297c2929984956f584feededf03a225531
 }
