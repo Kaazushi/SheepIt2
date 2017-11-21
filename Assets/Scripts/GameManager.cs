@@ -13,6 +13,12 @@ public class GameManager : NetworkBehaviour
     GameObject[] m_players;
 	public List<PlayerInfo> m_playerList = new List<PlayerInfo>();
 
+	//Timer Fields
+	int m_startTime = 0;
+	int m_roundTime = 60;
+
+
+
     NetworkStartPosition[] spawnPoints;
 
     int m_preda = -1;
@@ -126,9 +132,4 @@ public class GameManager : NetworkBehaviour
 		return target;
 	}
 
-
-	[Command]
-	public List<PlayerInfo> GetPlayerInfoList(){
-		return m_playerList;
-	}
 }
