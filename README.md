@@ -13,13 +13,12 @@ Dans le lobby une ligne où on doit mettre "ready" est un joueur. Le autocreate 
 
 TODO:
 Game manager:
-- récupéré tout les joueurs qui ont été instancié avec NetworkIdentity.clientAuthorityOwner (.connectionId)
-- recrée map des joueurs (en gardant LobbyPlayerInfo?) et des points en utilisant cet ID
-- comptage des points avec couleur pour indiquer chaque player
-
+- Un Game Data synchrone avec une list de player info
+- comptage des points via GameData 
+- gérer cas d'arret quand prédateur mange (sachant que points peuvent varié si survie précédamment)
+- timer UI updaté
 
 NEXT:
-- timer pour les rounds
 - map plus grande
 - refactor du code
 - ability mouton
