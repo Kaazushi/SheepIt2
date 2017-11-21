@@ -13,11 +13,8 @@ public class GameManager : NetworkBehaviour
     GameObject[] m_players;
 	public List<PlayerInfo> m_playerList = new List<PlayerInfo>();
 
-	//Timer Fields
-	int m_startTime = 0;
-	int m_roundTime = 60;
-
-
+	Timer m_timer;
+	float m_roundMaxTime = 20;
 
     NetworkStartPosition[] spawnPoints;
 
@@ -35,11 +32,15 @@ public class GameManager : NetworkBehaviour
             INSTANCE = this;
             DontDestroyOnLoad(this);
         }
+		m_timer = new Timer (m_roundMaxTime);
     }
 
 
-    void Update()
+    void LateUpdate()
     {
+		if (m_timer.IsTimeUp ()) {
+			StartRound();
+		}
     }
 
     public void BeginGame()
@@ -93,15 +94,15 @@ public class GameManager : NetworkBehaviour
             {
                 type = AnimalType.SHEEP;
                 m_players[i].GetComponent<PlayerController>().RpcSetPredator(false);
-
             }
-
             m_players[i].GetComponent<PlayerController>().RpcSetSkin(type);
             m_players[i].GetComponent<PlayerController>().RpcSetPosition(spawnPoints[currentSpawn%spawnPoints.Length].transform.position);
             currentSpawn++;
-
         }
+
+		m_timer.TimerStartRound ();
     }
+
 
     [Command]
     public void CmdAddPoint(int a_predator, int a_victim)
@@ -111,7 +112,6 @@ public class GameManager : NetworkBehaviour
 		PlayerInfo predaInfos = GetPlayerInfo (a_predator);
 		predaInfos._playerScore++;
 
-        Debug.Log("PILOU : " + predaInfos._playerScore + "    " + (m_players.Length - 1));
 
         //Temp round stoping criteria
         if (predaInfos._playerScore == m_players.Length -1)
