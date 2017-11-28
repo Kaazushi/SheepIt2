@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Timer {
 
+	GameObject m_timerUI;
+
 	float m_startTime;
 	float m_roundTime;
 	bool m_running;
@@ -18,6 +20,10 @@ public class Timer {
 	public void TimerStartRound(){
 		m_startTime = Time.time;
 		m_running = true;
+
+		m_timerUI = GameObject.FindGameObjectWithTag ("UI");
+		if (m_timerUI == null)
+			Debug.Log ("UI not found");
 	}
 
 	public bool IsTimeUp(){
@@ -33,8 +39,16 @@ public class Timer {
 	}
 
 	void Update () {
-		if (!m_running)
+		if (!m_running) {
 			return;
+		}
 		m_currentTime = (int)(Time.time - m_startTime);
+
+		//Display time in UI
+		float timeLeft = m_roundTime - m_currentTime;
+		string minLeft = ((int)timeLeft / 60).ToString();
+		string secLeft = ((int)timeLeft % 60).ToString();
+
+		m_timerUI.GetComponent<HUDManager> ().RpcSetTimerTime (minLeft + ":" + secLeft);
 	}
 }
