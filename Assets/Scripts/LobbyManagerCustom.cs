@@ -21,11 +21,12 @@ public class LobbyManagerCustom : Prototype.NetworkLobby.LobbyManager
 
     public override void OnServerSceneChanged(string sceneName)
     {
-		List<LobbyPlayer> _lobbyPlayerList = LobbyPlayerListCustom.GetInstance ().GetPlayerList ();
+		/*List<LobbyPlayer> _lobbyPlayerList = LobbyPlayerListCustom.GetInstance ().GetPlayerList ();
 		foreach(LobbyPlayer pl in _lobbyPlayerList){
 			Debug.Log("Player Info : ID " + pl.connectionToClient.connectionId);
-			GameData.INSTANCE.AddPlayerInfo (new PlayerInfo(pl.connectionToClient.connectionId, pl.playerColor, pl.playerName));
-		}
+
+            GameData.INSTANCE.AddPlayerInfo (new PlayerInfo(pl.connectionToClient.connectionId, pl.playerColor, pl.playerName));
+		}*/
         
         base.OnServerSceneChanged(sceneName);
         GameManager.INSTANCE.BeginGame();

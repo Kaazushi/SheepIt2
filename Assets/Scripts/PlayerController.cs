@@ -70,6 +70,14 @@ public class PlayerController : NetworkBehaviour {
         }
     }
 
+    void DisplayMyColor(Color color)
+    {
+        if (isLocalPlayer)
+        {
+            Camera.main.backgroundColor = color;
+        }
+    }
+
     [ClientRpc]
     public void RpcSetPosition(Vector3 a_position)
     {
@@ -88,7 +96,8 @@ public class PlayerController : NetworkBehaviour {
 
         if (Input.GetKey(KeyCode.Tab))
         {
-            MenuManager.INSTANCE.OpenMenu(MENUTYPE.SCORE);
+            //  MenuManager.INSTANCE.OpenMenu(MENUTYPE.SCORE);
+            DisplayMyColor(GetComponent<PlayerInfo>()._playercolor);
         }
 	
 		_Strat.PlayerMovement(gameObject);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prototype.NetworkLobby;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,22 +53,31 @@ public class GameManager : NetworkBehaviour
         yield return new WaitForSeconds(2);
         Debug.Log("BEGIN GAME");
 
+
+        List<LobbyPlayer> _lobbyPlayerList = LobbyPlayerListCustom.GetInstance().GetPlayerList();
         m_players = GameObject.FindGameObjectsWithTag("Player");
         spawnPoints = FindObjectsOfType<NetworkStartPosition>();
         currentSpawn = 0;
+        
         foreach (GameObject go in m_players)
         {
             if (isServer)
             {
                 Debug.Log(go.name + "  " + go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
             }
-            PlayerInfo playerInfo = GameData.INSTANCE.GetPlayerInfo(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
-            Debug.Log(playerInfo);
-            playerInfo._playerController = go.GetComponent<PlayerController> ();
-            playerInfo._playerScore = 0;
 
-            go.GetComponent<PlayerController>().RpcDisplayMyColor(playerInfo._playercolor);
+            PlayerInfo playerInfo = go.GetComponent<PlayerInfo>();
+            LobbyPlayer lobbyPlayer = _lobbyPlayerList.Find(o => o.connectionToClient.connectionId == playerInfo.GetPlayerId());
+            //Debug.Log(playerInfo.GetComponent<NetworkInstanceId>());
+            GameData.INSTANCE.AddPlayerInfo(playerInfo); 
+            //envoyer le network Id et récupéré l'objet qui correspond? Ne pas mettre le playerInfo en Sync et tout envoyer depuis le serveur quand ils sont updater, voir comment?
+            Debug.Log(lobbyPlayer.playerColor);
+            playerInfo.setData(lobbyPlayer.playerColor, lobbyPlayer.playerName);
+            //GameData.INSTANCE.GetPlayerInfo(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
+
+            //go.GetComponent<PlayerController>().RpcDisplayMyColor(playerInfo._playercolor);
         }
+
         m_preda = -1;
         StartRound();
 
@@ -108,7 +118,7 @@ public class GameManager : NetworkBehaviour
     public void CmdAddPoint(int a_predator, int a_victim)
     {
         Debug.Log("POINT pour " + a_predator);
-		GameData.INSTANCE.GetPlayerInfo(a_victim)._playerController.RpcDestroyYourSkin();
+		GameData.INSTANCE.GetPlayerInfo(a_victim).gameObject.GetComponent<PlayerController>().RpcDestroyYourSkin();
 		PlayerInfo predaInfos = GameData.INSTANCE.GetPlayerInfo (a_predator);
 		predaInfos._playerScore++;
 
