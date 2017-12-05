@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Timer {
 
-	GameObject m_timerUI;
-
 	float m_startTime;
-	float m_roundTime;
+	public float m_roundTime;
 	bool m_running;
-	int m_currentTime;
+	public float m_currentTime;
 
 	public Timer(float i_roundTime){
 		m_startTime = 0;
@@ -21,9 +19,7 @@ public class Timer {
 		m_startTime = Time.time;
 		m_running = true;
 
-		m_timerUI = GameObject.FindGameObjectWithTag ("UI");
-		if (m_timerUI == null)
-			Debug.Log ("UI not found");
+		m_currentTime = 0;
 	}
 
 	public bool IsTimeUp(){
@@ -42,13 +38,10 @@ public class Timer {
 		if (!m_running) {
 			return;
 		}
-		m_currentTime = (int)(Time.time - m_startTime);
+		m_currentTime += Time.deltaTime;
+	}
 
-		//Display time in UI
-		float timeLeft = m_roundTime - m_currentTime;
-		string minLeft = ((int)timeLeft / 60).ToString();
-		string secLeft = ((int)timeLeft % 60).ToString();
-
-		m_timerUI.GetComponent<HUDManager> ().RpcSetTimerTime (minLeft + ":" + secLeft);
+	public bool IsTimerRunning(){
+		return m_running;
 	}
 }
