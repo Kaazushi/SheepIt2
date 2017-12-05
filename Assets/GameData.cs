@@ -19,6 +19,7 @@ public class GameData : NetworkBehaviour
         }
     }
 
+   // [ClientRpc]
     public void AddPlayerInfo(PlayerInfo a_playerInfo)
     {
         m_playerList.Add(a_playerInfo);
@@ -27,7 +28,7 @@ public class GameData : NetworkBehaviour
     public PlayerInfo GetPlayerInfo(int iConnectionID)
     {
         PlayerInfo target;
-        target = m_playerList.Find(o => o._playerID == iConnectionID);
+        target = m_playerList.Find(o => o.GetPlayerId() == iConnectionID);
 
         // Envoyer exception si target == null
         if (target == null)
@@ -38,5 +39,14 @@ public class GameData : NetworkBehaviour
         }
         return target;
     }
+
+    private void Update()
+    {
+       /* if (m_playerList.Count > 0)
+        {
+            Debug.Log(m_playerList[0]._playercolor);
+        }*/
+    }
+
 
 }
