@@ -17,6 +17,7 @@ Game manager:
 - Refactoriser Timer (limit négative pour illimité/event quand timer fini/ etc...)
 - Prefab - PlayerInfoDisplayer
 - Compléter DisplayScore
+
 NEXT:
 - map plus grande
 - refactor du code
