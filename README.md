@@ -13,11 +13,10 @@ Dans le lobby une ligne où on doit mettre "ready" est un joueur. Le autocreate 
 
 TODO:
 Game manager:
-- Un Game Data synchrone avec une list de player info
-- comptage des points via GameData 
 - gérer cas d'arret quand prédateur mange (sachant que points peuvent varié si survie précédamment)
-- timer UI updaté
-
+- Refactoriser Timer (limit négative pour illimité/event quand timer fini/ etc...)
+- Prefab - PlayerInfoDisplayer
+- Compléter DisplayScore
 NEXT:
 - map plus grande
 - refactor du code
