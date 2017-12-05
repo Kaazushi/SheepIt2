@@ -75,7 +75,9 @@ public class GameManager : NetworkBehaviour
         m_players = GameObject.FindGameObjectsWithTag("Player");
         spawnPoints = FindObjectsOfType<NetworkStartPosition>();
         currentSpawn = 0;
-        
+        GameData.INSTANCE.RpcRetrievePlayerInfo();
+
+
         foreach (GameObject go in m_players)
         {
             if (isServer)
@@ -86,8 +88,7 @@ public class GameManager : NetworkBehaviour
             PlayerInfo playerInfo = go.GetComponent<PlayerInfo>();
             LobbyPlayer lobbyPlayer = _lobbyPlayerList.Find(o => o.connectionToClient.connectionId == playerInfo.GetPlayerId());
             //Debug.Log(playerInfo.GetComponent<NetworkInstanceId>());
-            GameData.INSTANCE.AddPlayerInfo(playerInfo); 
-            //envoyer le network Id et récupéré l'objet qui correspond? Ne pas mettre le playerInfo en Sync et tout envoyer depuis le serveur quand ils sont updater, voir comment?
+
             Debug.Log(lobbyPlayer.playerColor);
             playerInfo.setData(lobbyPlayer.playerColor, lobbyPlayer.playerName);
             //GameData.INSTANCE.GetPlayerInfo(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);

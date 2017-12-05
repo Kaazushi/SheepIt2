@@ -96,8 +96,12 @@ public class PlayerController : NetworkBehaviour {
 
         if (Input.GetKey(KeyCode.Tab))
         {
-            //  MenuManager.INSTANCE.OpenMenu(MENUTYPE.SCORE);
+            MenuManager.INSTANCE.OpenMenu(MENUTYPE.SCORE);
             DisplayMyColor(GetComponent<PlayerInfo>()._playercolor);
+        }
+        else
+        {
+            MenuManager.INSTANCE.CloseMenu();
         }
 	
 		_Strat.PlayerMovement(gameObject);

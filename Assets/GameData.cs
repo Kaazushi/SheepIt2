@@ -19,8 +19,17 @@ public class GameData : NetworkBehaviour
         }
     }
 
-   // [ClientRpc]
-    public void AddPlayerInfo(PlayerInfo a_playerInfo)
+    [ClientRpc]
+    public void RpcRetrievePlayerInfo()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach(GameObject go in players)
+        {
+            AddPlayerInfo(go.GetComponent<PlayerInfo>());
+        }
+    }
+
+    void AddPlayerInfo(PlayerInfo a_playerInfo)
     {
         m_playerList.Add(a_playerInfo);
     }
@@ -38,6 +47,11 @@ public class GameData : NetworkBehaviour
 
         }
         return target;
+    }
+
+    public List<PlayerInfo> GetPlayerInfoList()
+    {
+        return m_playerList;
     }
 
     private void Update()
