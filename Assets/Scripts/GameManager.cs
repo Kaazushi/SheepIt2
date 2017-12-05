@@ -13,7 +13,8 @@ public class GameManager : NetworkBehaviour
     public static GameManager INSTANCE;
     GameObject[] m_players;
 
-	public HUDManager m_hud;
+	HUDManager m_hud;
+	TimerFactory m_timerFactory;
 
 	Timer m_timer;
 	float m_roundMaxTime = 20;
@@ -34,12 +35,15 @@ public class GameManager : NetworkBehaviour
             INSTANCE = this;
             DontDestroyOnLoad(this);
         }
-		m_timer = new Timer (m_roundMaxTime);
+
+		m_timerFactory = TimerFactory.INSTANCE;
+		m_timer = m_timerFactory.getTimer();
     }
 
 	void Update(){
 		if (m_timer.IsTimerRunning()) {
 			//Display time in UI
+
 			float timeLeft = m_timer.m_roundTime - m_timer.m_currentTime;
 			string minLeft = ((int)timeLeft / 60).ToString ();
 			string secLeft = ((int)timeLeft % 60).ToString ();
@@ -58,9 +62,6 @@ public class GameManager : NetworkBehaviour
     public void BeginGame()
     {
 		m_hud = GameObject.FindGameObjectWithTag ("UI").GetComponent<HUDManager> ();
-		if (m_hud != null) {
-			Debug.Log (m_hud);
-		}
         StartCoroutine(BeginGameCoroutine());
     }
 

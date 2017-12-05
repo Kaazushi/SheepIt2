@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer {
+public class Timer : MonoBehaviour{
 
 	float m_startTime;
 	public float m_roundTime;
 	bool m_running;
 	public float m_currentTime;
 
-	public Timer(float i_roundTime){
+	void Start(){
 		m_startTime = 0;
-		m_roundTime = i_roundTime;
+		m_roundTime = 20;
 		m_running = false;
 	}
 
@@ -24,7 +24,7 @@ public class Timer {
 
 	public bool IsTimeUp(){
 		if (m_running) {
-			if (Time.time >= (m_startTime + m_roundTime)) {
+			if (m_currentTime >=  m_roundTime) {
 				m_running = false;
 				return true;
 			} else
