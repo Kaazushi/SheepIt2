@@ -26,15 +26,18 @@ public class PlayerController : NetworkBehaviour {
 
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-        if (coll.collider.CompareTag("PlayerSkin"))
+        if (isServer)
         {
-            bool isCollPredator = coll.gameObject.GetComponent<PlayerController>().getIsPredator();
-            //if this object is a predator and the collison is a prey
-            if (!isPredator && isCollPredator)
+            if (coll.collider.CompareTag("PlayerSkin"))
             {
-                DestroyYourSkin();
-                Debug.Log("Collided between predator and prey");
-                GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
+                bool isCollPredator = coll.gameObject.GetComponent<PlayerController>().getIsPredator();
+                //if this object is a predator and the collison is a prey
+                if (!isPredator && isCollPredator)
+                {
+                    DestroyYourSkin();
+                    Debug.Log("Collided between predator and prey");
+                    GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
+                }
             }
         }
 	}
