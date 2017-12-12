@@ -55,6 +55,11 @@ public class MenuManager : MonoBehaviour {
 
 	public void OpenMenu(MENUTYPE a_type)
 	{
+        if(a_type == m_currentMenu)
+        {
+            return;
+        }
+
 		CloseMenu();
 		MenuEntry menuEntry = m_listMenu.Find(x => x.m_type == a_type);
 		if (menuEntry != null)

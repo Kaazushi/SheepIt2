@@ -34,7 +34,7 @@ public class PlayerController : NetworkBehaviour {
             {
                 DestroyYourSkin();
                 Debug.Log("Collided between predator and prey");
-				GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
+                GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
             }
         }
 	}
@@ -94,12 +94,12 @@ public class PlayerController : NetworkBehaviour {
 			return;
 		}
 
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             MenuManager.INSTANCE.OpenMenu(MENUTYPE.SCORE);
             DisplayMyColor(GetComponent<PlayerInfo>()._playercolor);
         }
-        else
+        else if(Input.GetKeyUp(KeyCode.Tab))
         {
             MenuManager.INSTANCE.CloseMenu();
         }

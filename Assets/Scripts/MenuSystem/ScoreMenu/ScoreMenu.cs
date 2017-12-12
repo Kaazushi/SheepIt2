@@ -3,18 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreMenu : Menu {
+
+    [SerializeField]
+    GameObject m_PrefabPlayerInfoDisplayer;
+
+
+    [SerializeField]
+    GameObject m_TabDisplay;
     private void OnEnable()
     {
-        //start coroutine wich get score from gamemanager
-         foreach(PlayerInfo info in GameData.INSTANCE.GetPlayerInfoList())
+         if(m_TabDisplay.transform.childCount > 0)
         {
-            
+            return;
+        }
+        //start get score from gamemanager
+        foreach (PlayerInfo info in GameData.INSTANCE.GetPlayerInfoList())
+        {
+            GameObject go = GameObject.Instantiate(m_PrefabPlayerInfoDisplayer);
+            go.transform.parent = m_TabDisplay.transform;
+            go.GetComponent<PlayerInfoDisplayer>().SetPlayerInfo(info);
         }
     }
 
     private void OnDisable()
     {
-        //stop coroutine
     }
 
     public override float GetAlphaBack()
