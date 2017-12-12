@@ -15,8 +15,9 @@ TODO:
 Game manager:
 - gérer cas d'arret quand prédateur mange (sachant que points peuvent varié si survie précédamment)
 - Refactoriser Timer (limit négative pour illimité/event quand timer fini/ etc...)
-- Prefab - PlayerInfoDisplayer
-- Compléter DisplayScore
+- Network du OnCollision - voir pour améliorer le network pour éviter les collision c^oté clients qui trigger pas côté serveur 
+- Ou laisser le GameManager présent sur les client et mettre des isserveur dans tout les fonctions, et mettre neplace un système pour pas compter deux fois les points
+- Mettre isPreda dans le tableau de score
 
 NEXT:
 - map plus grande
