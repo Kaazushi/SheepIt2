@@ -31,7 +31,10 @@ public class GameData : NetworkBehaviour
 
     void AddPlayerInfo(PlayerInfo a_playerInfo)
     {
-        m_playerList.Add(a_playerInfo);
+        if (!m_playerList.Contains(a_playerInfo))
+        {
+            m_playerList.Add(a_playerInfo);
+        }
     }
 
     public PlayerInfo GetPlayerInfo(int iConnectionID)
