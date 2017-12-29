@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class WolfStrategy : AbilityStrategy {
 
@@ -9,11 +10,14 @@ public class WolfStrategy : AbilityStrategy {
 		base.PlayerMovement (iPlayer);
 	}
 
-	// Ability1
-	public override void Ability1(){}
 
-	// Ability2
-	public override void Ability2(){}
+    // Ability1
+    public override void Ability1(){
+
+    }
+
+    // Ability2
+    public override void Ability2() { }
 
 	// Death
 	public override void PlayerDeath(){}

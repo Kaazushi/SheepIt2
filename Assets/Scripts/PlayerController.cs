@@ -90,6 +90,17 @@ public class PlayerController : NetworkBehaviour {
         }
     }
 
+
+    [ClientRpc]
+    public void RpcForcePath(Vector3 a_position,int a_speed, int a_time)
+    {
+        if (isLocalPlayer)
+        {
+
+        }
+    }
+
+
     // Update is called once per frame
     void Update () {
 		if (!isLocalPlayer)
@@ -100,7 +111,6 @@ public class PlayerController : NetworkBehaviour {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             MenuManager.INSTANCE.OpenMenu(MENUTYPE.SCORE);
-            DisplayMyColor(GetComponent<PlayerInfo>()._playercolor);
         }
         else if(Input.GetKeyUp(KeyCode.Tab))
         {
@@ -108,6 +118,11 @@ public class PlayerController : NetworkBehaviour {
         }
 	
 		_Strat.PlayerMovement(gameObject);
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _Strat.Ability1();
+        }
     }
 
 
