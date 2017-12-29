@@ -73,17 +73,12 @@ public class GameManager : NetworkBehaviour
 
 
         foreach (GameObject go in m_players)
-        {
-            if (isServer)
-            {
-                Debug.Log(go.name + "  " + go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
-            }
-
+		{
             PlayerInfo playerInfo = go.GetComponent<PlayerInfo>();
             LobbyPlayer lobbyPlayer = _lobbyPlayerList.Find(o => o.connectionToClient.connectionId == playerInfo.GetPlayerId());
             //Debug.Log(playerInfo.GetComponent<NetworkInstanceId>());
 
-            Debug.Log(lobbyPlayer.playerColor);
+            //Debug.Log(lobbyPlayer.playerColor);
             playerInfo.setData(lobbyPlayer.playerColor, lobbyPlayer.playerName);
             //GameData.INSTANCE.GetPlayerInfo(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
 
@@ -129,7 +124,6 @@ public class GameManager : NetworkBehaviour
     [Command]
     public void CmdAddPoint(int a_predator, int a_victim)
     {
-        Debug.Log("POINT pour " + a_predator);
 		GameData.INSTANCE.GetPlayerInfo(a_victim).gameObject.GetComponent<PlayerController>().RpcDestroyYourSkin();
 		PlayerInfo predaInfos = GameData.INSTANCE.GetPlayerInfo (a_predator);
 		predaInfos._playerScore++;
@@ -142,4 +136,10 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+
+	[Command]
+	public void CmdSpawnObject(GameObject a_object, Vector3 a_position, Quaternion a_rotation)
+    {
+        Instantiate(a_object, a_position, a_rotation);
+    }
 }

@@ -10,11 +10,9 @@ public class WolfStrategy : AbilityStrategy {
 		base.PlayerMovement (iPlayer);
 	}
 
+	// Ability1
+	public override void Ability1(GameObject iPlayer) {}
 
-    // Ability1
-    public override void Ability1(){
-
-    }
 
     // Ability2
     public override void Ability2() { }

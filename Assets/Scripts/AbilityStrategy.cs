@@ -42,7 +42,7 @@ public abstract class AbilityStrategy {
 	}
 
 	// Ability1
-	public virtual void Ability1(){}
+	public virtual void Ability1(GameObject iPlayer) {}
 
 	// Ability2
 	public virtual void Ability2(){}
