@@ -14,7 +14,7 @@ public class PlayerInfoDisplayer : MonoBehaviour {
     PlayerInfo m_playerInfo;
     // Update is called once per frame
     void Update () {
-        Debug.Log(m_playerInfo);
+        //Debug.Log(m_playerInfo);
         if (m_playerInfo)
         {
             m_name.text = m_playerInfo._playerName;

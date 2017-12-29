@@ -97,6 +97,7 @@ public class PlayerController : NetworkBehaviour {
 			return;
 		}
 
+		//ScoreMenu
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             MenuManager.INSTANCE.OpenMenu(MENUTYPE.SCORE);
@@ -106,6 +107,11 @@ public class PlayerController : NetworkBehaviour {
         {
             MenuManager.INSTANCE.CloseMenu();
         }
+
+		//Ability1
+		if(Input.GetKeyDown(KeyCode.A)){
+			_Strat.Ability1(gameObject);
+		}
 	
 		_Strat.PlayerMovement(gameObject);
     }

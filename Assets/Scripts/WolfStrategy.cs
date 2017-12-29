@@ -10,7 +10,7 @@ public class WolfStrategy : AbilityStrategy {
 	}
 
 	// Ability1
-	public override void Ability1(){}
+	public override void Ability1(GameObject iPlayer) {}
 
 	// Ability2
 	public override void Ability2(){}
