@@ -18,7 +18,7 @@ public class GameManager : NetworkBehaviour
 	TimerFactory m_timerFactory;
 
 	Timer m_timer;
-	float m_roundMaxTime = 20;
+	float m_roundMaxTime = 1000;
 
     NetworkStartPosition[] spawnPoints;
 
@@ -137,8 +137,9 @@ public class GameManager : NetworkBehaviour
     }
 
 
-	[Command]
-	public void CmdSpawnObject(GameObject a_object, Vector3 a_position, Quaternion a_rotation)
+
+    [Command]
+    public void CmdSpawnObject(GameObject a_object, Vector3 a_position, Quaternion a_rotation)
     {
         Instantiate(a_object, a_position, a_rotation);
     }

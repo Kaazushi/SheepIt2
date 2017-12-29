@@ -12,7 +12,7 @@ public class SheepStrategy : AbilityStrategy {
 
 
 	// Ability1: spawn a Fence
-	private float ab1_cd = 3;
+	private float ab1_cd = 0;
 	private float ab1_last_call = 0;
 
 	public override void Ability1(GameObject iPlayer)
@@ -23,8 +23,8 @@ public class SheepStrategy : AbilityStrategy {
 			Debug.Log ("Using Fence");
             GameObject fence = (GameObject) Resources.Load("Fence", typeof(GameObject));
             Vector3 position = iPlayer.transform.position;
-            Matrix4x4 m = Matrix4x4.Translate(iPlayer.transform.right);
-            position = m.MultiplyVector(position);
+            Matrix4x4 m = Matrix4x4.Translate(-iPlayer.transform.right);
+            position = m.MultiplyPoint3x4(position);
 
             Quaternion rotation = iPlayer.transform.rotation;
             
