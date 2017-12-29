@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public enum AnimalType { SHEEP, WOLF}
@@ -26,7 +27,7 @@ public class GameManager : NetworkBehaviour
 
     void Start()
     {
-        if (INSTANCE != null && INSTANCE != this && isServer)
+        if (INSTANCE != null && INSTANCE != this)
         {
             DestroyImmediate(gameObject);
         }
@@ -44,20 +45,13 @@ public class GameManager : NetworkBehaviour
 		if (m_timer.IsTimerRunning()) {
 			//Display time in UI
 
-			float timeLeft = m_timer.m_roundTime - m_timer.m_currentTime;
+			float timeLeft = m_timer.GetTimeLeft();
 			string minLeft = ((int)timeLeft / 60).ToString ();
 			string secLeft = ((int)timeLeft % 60).ToString ();
 
 			m_hud.RpcSetTimerTime (minLeft + ":" + secLeft);
 		}
 	}
-
-    void LateUpdate()
-    {
-		if (m_timer.IsTimeUp ()) {
-			StartRound();
-		}
-    }
 
     public void BeginGame()
     {
@@ -123,7 +117,7 @@ public class GameManager : NetworkBehaviour
             currentSpawn++;
         }
 
-		m_timer.TimerStartRound ();
+		m_timer.StartTimer (m_roundMaxTime, () => { StartRound(); });
     }
 
 
