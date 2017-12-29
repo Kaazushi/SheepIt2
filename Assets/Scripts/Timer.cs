@@ -1,37 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Timer : MonoBehaviour{
 
-	float m_startTime;
-	public float m_roundTime;
+	float m_finishTime;
 	bool m_running;
-	public float m_currentTime;
+    float m_currentTime;
+    Action m_callback;
 
-	void Start(){
-		m_startTime = 0;
-		m_roundTime = 20;
+    void Start(){
 		m_running = false;
-	}
+        m_currentTime = 0;
+    }
 
-	public void TimerStartRound(){
-		m_startTime = Time.time;
-		m_running = true;
+    public void StartTimer(float a_finishTime = Mathf.Infinity, Action a_callback = null  )
+    {
+        m_currentTime = 0;
+        m_running = true;
+        m_finishTime = a_finishTime;
+        m_callback = a_callback;
 
-		m_currentTime = 0;
-	}
+    }
 
-	public bool IsTimeUp(){
-		if (m_running) {
-			if (m_currentTime >=  m_roundTime) {
-				m_running = false;
-				return true;
-			} else
-				return false;
-		} 
-		else
-			return false;
+	bool IsTimeUp(){
+        return m_currentTime >= m_finishTime;
 	}
 
 	void Update () {
@@ -39,9 +33,38 @@ public class Timer : MonoBehaviour{
 			return;
 		}
 		m_currentTime += Time.deltaTime;
+        if (IsTimeUp())
+        {
+            m_running = false;
+            m_callback();
+        }
+
 	}
 
 	public bool IsTimerRunning(){
 		return m_running;
 	}
+
+    public void Pause()
+    {
+        m_running = false;
+    }
+
+    public void UnPause()
+    {
+        if (!IsTimeUp())
+        {
+            m_running = true;
+        }
+    }
+
+    public float GetCurrentTime()
+    {
+        return m_currentTime;
+    }
+
+    public float GetTimeLeft()
+    {
+        return m_finishTime -  m_currentTime;
+    }
 }
