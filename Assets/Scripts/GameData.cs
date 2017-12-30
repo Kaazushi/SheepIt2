@@ -59,10 +59,6 @@ public class GameData : NetworkBehaviour
 
     private void Update()
     {
-       /* if (m_playerList.Count > 0)
-        {
-            Debug.Log(m_playerList[0]._playercolor);
-        }*/
     }
 
 

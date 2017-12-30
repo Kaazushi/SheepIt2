@@ -40,7 +40,8 @@ public class PlayerController : NetworkBehaviour {
                 }
             }
         }
-	}
+    
+    }
 
     [ClientRpc]
     public void RpcDestroyYourSkin()
@@ -128,7 +129,20 @@ public class PlayerController : NetworkBehaviour {
     }
 
 
-	public bool getIsPredator(){
+    [Command]
+    public void CmdSpawnObject(GameObject a_object, Vector3 a_position, Quaternion a_rotation)
+    {
+        if (isServer)
+        {
+            Debug.Log("Spawn");
+            a_object = (GameObject)Resources.Load("Fence", typeof(GameObject));
+            GameManager.INSTANCE.SpawnObject(a_object, a_position, a_rotation);
+            //NetworkServer.Spawn(Instantiate(a_object, a_position, a_rotation));
+        }
+    }
+
+
+    public bool getIsPredator(){
 		return isPredator;
 	}
 }

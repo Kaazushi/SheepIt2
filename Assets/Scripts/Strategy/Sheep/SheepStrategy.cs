@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class SheepStrategy : AbilityStrategy {
 
@@ -27,17 +28,25 @@ public class SheepStrategy : AbilityStrategy {
             position = m.MultiplyPoint3x4(position);
 
             Quaternion rotation = iPlayer.transform.rotation;
-            
+            rotation *= Quaternion.Euler(Vector3.forward * 90);
 
-            GameManager.INSTANCE.CmdSpawnObject(fence, position, rotation);
 
-			ab1_last_call = current_time;
+            // GameManager.INSTANCE.CmdSpawnObject(fence, position, rotation);
+            iPlayer.GetComponent<PlayerController>().CmdSpawnObject(fence, position, rotation);
+            ab1_last_call = current_time;
 		} 
         // if Ability on cooldown : do nothing
 		else {
 			Debug.Log ("Fence is on cooldown");
 		}
 	}
+
+    [Command]
+    public void CmdTest()
+    {
+        if (isServer)
+            Debug.Log("Strategy");
+    }
 
 	// Ability2
 	public override void Ability2(){}

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public abstract class AbilityStrategy {
+public abstract class AbilityStrategy :NetworkBehaviour {
 
 	[SerializeField]
 	private float _Speed = 5;

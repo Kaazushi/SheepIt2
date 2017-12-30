@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour{
     float m_currentTime;
     Action m_callback;
 
-    void Start(){
+    void Awake(){
 		m_running = false;
         m_currentTime = 0;
     }
@@ -18,13 +18,12 @@ public class Timer : MonoBehaviour{
     public void StartTimer(float a_finishTime = Mathf.Infinity, Action a_callback = null  )
     {
         m_currentTime = 0;
-        m_running = true;
         m_finishTime = a_finishTime;
         m_callback = a_callback;
-
+        m_running = true;
     }
 
-	bool IsTimeUp(){
+    bool IsTimeUp(){
         return m_currentTime >= m_finishTime;
 	}
 

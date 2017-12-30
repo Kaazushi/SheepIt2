@@ -37,8 +37,9 @@ public class GameManager : NetworkBehaviour
             DontDestroyOnLoad(this);
         }
 
-		m_timerFactory = TimerFactory.INSTANCE;
-		m_timer = m_timerFactory.getTimer();
+        m_timerFactory = TimerFactory.INSTANCE;
+        m_timer = m_timerFactory.getTimer();
+        
     }
 
 	void Update(){
@@ -136,11 +137,12 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-
-
-    [Command]
-    public void CmdSpawnObject(GameObject a_object, Vector3 a_position, Quaternion a_rotation)
+    public void SpawnObject(GameObject a_object, Vector3 a_position, Quaternion a_rotation)
     {
-        Instantiate(a_object, a_position, a_rotation);
+        if (isServer)
+        {
+            Debug.Log("Spawn");
+            NetworkServer.Spawn(Instantiate(a_object, a_position, a_rotation));
+        }
     }
 }
