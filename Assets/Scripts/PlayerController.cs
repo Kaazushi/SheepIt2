@@ -20,11 +20,14 @@ public class PlayerController : NetworkBehaviour {
             skin.transform.SetParent(gameObject.transform, false);
 
             //set corresponding strategy
-            _Strat = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
+            
+            GameObject strategy = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
+            strategy.transform.SetParent(gameObject.transform, false);
+            _Strat = strategy.GetComponent<AbilityStrategy>();
 
-	}
+    }
 
-	void OnCollisionEnter2D(Collision2D coll)
+    void OnCollisionEnter2D(Collision2D coll)
 	{
         if (isServer)
         {
@@ -35,6 +38,8 @@ public class PlayerController : NetworkBehaviour {
                 if (!isPredator && isCollPredator)
                 {
                     DestroyYourSkin();
+                    DestroyYourAbility();
+
                     Debug.Log("Collided between predator and prey");
                     GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
                 }
@@ -42,6 +47,23 @@ public class PlayerController : NetworkBehaviour {
         }
     
     }
+
+
+    [ClientRpc]
+    public void RpcDestroyYourAbility()
+    {
+        DestroyYourAbility();
+    }
+
+    void DestroyYourAbility()
+    {
+        if (_Strat)
+        {
+            Destroy(_Strat.gameObject);
+        }
+    }
+
+
 
     [ClientRpc]
     public void RpcDestroyYourSkin()

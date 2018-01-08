@@ -1,8 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+[Serializable]
+public class StrategyMap
+{
+    public AnimalType m_type;
+    public GameObject m_strategy;
+}
+
+
 public class AbilityStrategyFactory : MonoBehaviour {
+
+    [SerializeField]
+    List<StrategyMap> m_strategyMap = new List<StrategyMap>();
+
 
     public static AbilityStrategyFactory INSTANCE;
     void Start()
@@ -18,18 +32,19 @@ public class AbilityStrategyFactory : MonoBehaviour {
         }
     }
 
-    public AbilityStrategy getAbilityStrategy(AnimalType a_type)
+    public GameObject getAbilityStrategy(AnimalType a_type)
     {
-        switch (a_type)
+
+        StrategyMap res = m_strategyMap.First<StrategyMap>((o) => o.m_type == a_type);
+        if (res != null)
         {
-            case AnimalType.SHEEP:
-                return new SheepStrategy();
-
-            case AnimalType.WOLF:
-                return new WolfStrategy();
-
+            return GameObject.Instantiate(res.m_strategy, Vector3.zero, Quaternion.identity);
         }
-        return null;
+        else
+        {
+            return null;
+        }
+
     }
 
 }

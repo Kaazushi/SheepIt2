@@ -125,8 +125,10 @@ public class GameManager : NetworkBehaviour
     [Command]
     public void CmdAddPoint(int a_predator, int a_victim)
     {
-		GameData.INSTANCE.GetPlayerInfo(a_victim).gameObject.GetComponent<PlayerController>().RpcDestroyYourSkin();
-		PlayerInfo predaInfos = GameData.INSTANCE.GetPlayerInfo (a_predator);
+        PlayerController victim = GameData.INSTANCE.GetPlayerInfo(a_victim).gameObject.GetComponent<PlayerController>();
+        victim.RpcDestroyYourSkin();
+        victim.RpcDestroyYourAbility();
+        PlayerInfo predaInfos = GameData.INSTANCE.GetPlayerInfo (a_predator);
 		predaInfos._playerScore++;
 
 
@@ -141,7 +143,6 @@ public class GameManager : NetworkBehaviour
     {
         if (isServer)
         {
-            Debug.Log("Spawn");
             NetworkServer.Spawn(Instantiate(a_object, a_position, a_rotation));
         }
     }

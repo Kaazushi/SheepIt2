@@ -24,7 +24,6 @@ public class PlayerInfoDisplayer : MonoBehaviour {
 
     public void SetPlayerInfo(PlayerInfo a_playerInfo)
     {
-        Debug.Log("pilou");
         m_playerInfo = a_playerInfo;
     }
 

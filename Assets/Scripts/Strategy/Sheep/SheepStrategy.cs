@@ -5,6 +5,9 @@ using UnityEngine.Networking;
 
 public class SheepStrategy : AbilityStrategy {
 
+    [SerializeField]
+    GameObject m_fence;
+
 	// Movement
 	public override void PlayerMovement(GameObject iPlayer)
 	{
@@ -22,7 +25,6 @@ public class SheepStrategy : AbilityStrategy {
         // if Ability is available : spawn the prefab
 		if (current_time > ab1_last_call + ab1_cd) {
 			Debug.Log ("Using Fence");
-            GameObject fence = (GameObject) Resources.Load("Fence", typeof(GameObject));
             Vector3 position = iPlayer.transform.position;
             Matrix4x4 m = Matrix4x4.Translate(-iPlayer.transform.right);
             position = m.MultiplyPoint3x4(position);
@@ -30,9 +32,9 @@ public class SheepStrategy : AbilityStrategy {
             Quaternion rotation = iPlayer.transform.rotation;
             rotation *= Quaternion.Euler(Vector3.forward * 90);
 
-
+            CmdTest();
             // GameManager.INSTANCE.CmdSpawnObject(fence, position, rotation);
-            iPlayer.GetComponent<PlayerController>().CmdSpawnObject(fence, position, rotation);
+            //iPlayer.GetComponent<PlayerController>().CmdSpawnObject(m_fence, position, rotation);
             ab1_last_call = current_time;
 		} 
         // if Ability on cooldown : do nothing
@@ -44,8 +46,7 @@ public class SheepStrategy : AbilityStrategy {
     [Command]
     public void CmdTest()
     {
-        if (isServer)
-            Debug.Log("Strategy");
+        Debug.Log("Strategy");
     }
 
 	// Ability2
