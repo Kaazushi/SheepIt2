@@ -8,22 +8,33 @@ public class SheepStrategy : AbilityStrategy {
     [SerializeField]
     GameObject m_fence;
 
-	// Movement
-	public override void PlayerMovement(GameObject iPlayer)
+    // Ability1: spawn a Fence
+    [SerializeField]
+    private float m_spawnFenceCooldown = 5.0f;
+    private float ab1_last_call = 0;
+    Timer m_spawnFenceTimer;
+
+    private void Start()
+    {
+        m_spawnFenceTimer = TimerFactory.INSTANCE.getTimer();
+        m_spawnFenceTimer.StartTimer(m_spawnFenceCooldown);
+        m_spawnFenceTimer.Stop();
+    }
+
+
+    // Movement
+    public override void PlayerMovement(GameObject iPlayer)
 	{
 		base.PlayerMovement (iPlayer);
 	}
 
 
-	// Ability1: spawn a Fence
-	private float ab1_cd = 0;
-	private float ab1_last_call = 0;
 
 	public override void Ability1(GameObject iPlayer)
     {
 		float current_time = Time.time;
         // if Ability is available : spawn the prefab
-		if (current_time > ab1_last_call + ab1_cd) {
+		if (m_spawnFenceTimer.IsTimeUp()) {
 			Debug.Log ("Using Fence");
             Vector3 position = iPlayer.transform.position;
             Matrix4x4 m = Matrix4x4.Translate(-iPlayer.transform.right);
@@ -33,9 +44,9 @@ public class SheepStrategy : AbilityStrategy {
             rotation *= Quaternion.Euler(Vector3.forward * 90);
 
             GameManager.INSTANCE.SpawnObject(m_fence, position, rotation);
-            //iPlayer.GetComponent<PlayerController>().CmdSpawnObject(m_fence, position, rotation);
-            ab1_last_call = current_time;
-		} 
+
+            m_spawnFenceTimer.RestartTimer();
+        } 
         // if Ability on cooldown : do nothing
 		else {
 			Debug.Log ("Fence is on cooldown");

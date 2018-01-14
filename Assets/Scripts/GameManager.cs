@@ -15,9 +15,8 @@ public class GameManager : NetworkBehaviour
     GameObject[] m_players;
 
 	HUDManager m_hud;
-	TimerFactory m_timerFactory;
 
-	Timer m_timer;
+	Timer m_timerRound;
 	float m_roundMaxTime = 1000;
 
     NetworkStartPosition[] spawnPoints;
@@ -37,16 +36,15 @@ public class GameManager : NetworkBehaviour
             DontDestroyOnLoad(this);
         }
 
-        m_timerFactory = TimerFactory.INSTANCE;
-        m_timer = m_timerFactory.getTimer();
+        m_timerRound = TimerFactory.INSTANCE.getTimer();
         
     }
 
 	void Update(){
-		if (m_timer.IsTimerRunning()) {
+		if (m_timerRound.IsTimerRunning()) {
 			//Display time in UI
 
-			float timeLeft = m_timer.GetTimeLeft();
+			float timeLeft = m_timerRound.GetTimeLeft();
 			string minLeft = ((int)timeLeft / 60).ToString ();
 			string secLeft = ((int)timeLeft % 60).ToString ();
 
@@ -118,7 +116,7 @@ public class GameManager : NetworkBehaviour
             currentSpawn++;
         }
 
-		m_timer.StartTimer (m_roundMaxTime, () => { StartRound(); });
+		m_timerRound.StartTimer (m_roundMaxTime, () => { StartRound(); });
     }
 
 

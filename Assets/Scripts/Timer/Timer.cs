@@ -23,7 +23,13 @@ public class Timer : MonoBehaviour{
         m_running = true;
     }
 
-    bool IsTimeUp(){
+    public void RestartTimer()
+    {
+        m_currentTime = 0;
+        m_running = true;
+    }
+
+    public bool IsTimeUp(){
         return m_currentTime >= m_finishTime;
 	}
 
@@ -44,6 +50,11 @@ public class Timer : MonoBehaviour{
 		return m_running;
 	}
 
+    public void Stop()
+    {
+        m_running = false;
+        m_currentTime = m_finishTime;
+    }
     public void Pause()
     {
         m_running = false;
