@@ -123,6 +123,20 @@ public class PlayerController : NetworkBehaviour {
         }
     }
 
+    [Command]
+    public void CmdTransmitInput(int a_keyCode)
+    {
+        if (!isServer)
+        {
+            return;
+        }
+
+        if((KeyCode)a_keyCode == KeyCode.A)
+        {
+            _Strat.Ability1(gameObject);
+        }
+    }
+
 
     // Update is called once per frame
     void Update () {
@@ -140,27 +154,14 @@ public class PlayerController : NetworkBehaviour {
         {
             MenuManager.INSTANCE.CloseMenu();
         }
-
-		//Ability1
-		if(Input.GetKeyDown(KeyCode.A)){
-			_Strat.Ability1(gameObject);
+        
+        //Ability1
+        if (Input.GetKeyDown(KeyCode.A)){
+            CmdTransmitInput((int)KeyCode.A);
 		}
 	
 		_Strat.PlayerMovement(gameObject);
 
-    }
-
-
-    [Command]
-    public void CmdSpawnObject(GameObject a_object, Vector3 a_position, Quaternion a_rotation)
-    {
-        if (isServer)
-        {
-            Debug.Log("Spawn");
-            a_object = (GameObject)Resources.Load("Fence", typeof(GameObject));
-            GameManager.INSTANCE.SpawnObject(a_object, a_position, a_rotation);
-            //NetworkServer.Spawn(Instantiate(a_object, a_position, a_rotation));
-        }
     }
 
 

@@ -32,8 +32,7 @@ public class SheepStrategy : AbilityStrategy {
             Quaternion rotation = iPlayer.transform.rotation;
             rotation *= Quaternion.Euler(Vector3.forward * 90);
 
-            CmdTest();
-            // GameManager.INSTANCE.CmdSpawnObject(fence, position, rotation);
+            GameManager.INSTANCE.SpawnObject(m_fence, position, rotation);
             //iPlayer.GetComponent<PlayerController>().CmdSpawnObject(m_fence, position, rotation);
             ab1_last_call = current_time;
 		} 
@@ -42,12 +41,6 @@ public class SheepStrategy : AbilityStrategy {
 			Debug.Log ("Fence is on cooldown");
 		}
 	}
-
-    [Command]
-    public void CmdTest()
-    {
-        Debug.Log("Strategy");
-    }
 
 	// Ability2
 	public override void Ability2(){}
