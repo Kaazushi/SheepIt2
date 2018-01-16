@@ -11,7 +11,10 @@ public class SheepFence : NetworkBehaviour {
         if (isServer)
         {
             m_timer = TimerFactory.INSTANCE.getTimer();
-            m_timer.StartTimer(4, () => { Destroy(gameObject); });
+            m_timer.StartTimer(4, () => {
+                if (this != null)
+                    Destroy(gameObject);
+            });
         }
     }
 	

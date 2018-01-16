@@ -14,6 +14,9 @@ public class GameManager : NetworkBehaviour
     public static GameManager INSTANCE;
     GameObject[] m_players;
 
+    [SerializeField]
+    GameObject m_spawnObjects;
+
 	HUDManager m_hud;
 
 	Timer m_timerRound;
@@ -89,8 +92,19 @@ public class GameManager : NetworkBehaviour
 
     }
 
+    private void DestroyChilds(Transform a_transform)
+    {
+        for( int i = a_transform.childCount - 1 ; i >= 0 ; --i )
+        {
+            Destroy(a_transform.GetChild(i).gameObject);
+        }
+    }
+
     private void StartRound()
     {
+        DestroyChilds(m_spawnObjects.transform);
+  
+
         m_preda++;
         if (m_preda >= m_players.Length)
         {
@@ -98,7 +112,7 @@ public class GameManager : NetworkBehaviour
             BeginGame();
             return;
         }
-        for(int i = 0; i < m_players.Length; i++)
+        for (int i = 0; i < m_players.Length; i++)
         {
             AnimalType type;
             if(i == m_preda)
@@ -141,7 +155,7 @@ public class GameManager : NetworkBehaviour
     {
         if (isServer)
         {
-            NetworkServer.Spawn(Instantiate(a_object, a_position, a_rotation));
+            NetworkServer.Spawn(Instantiate(a_object, a_position, a_rotation, m_spawnObjects.transform));
         }
     }
 }

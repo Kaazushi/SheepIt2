@@ -41,7 +41,10 @@ public class Timer : MonoBehaviour{
         if (IsTimeUp())
         {
             m_running = false;
-            m_callback();
+            if (m_callback != null)
+            {
+                m_callback();
+            }
         }
 
 	}
