@@ -119,7 +119,7 @@ public class PlayerController : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
-
+            _Strat.ForcePath(a_position, a_speed, a_time);
         }
     }
 

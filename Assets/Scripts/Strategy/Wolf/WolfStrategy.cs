@@ -11,7 +11,18 @@ public class WolfStrategy : AbilityStrategy {
 	}
 
 	// Ability1
-	public override void Ability1(GameObject iPlayer) {}
+	public override void Ability1(GameObject iPlayer) {
+
+        List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
+        foreach(PlayerInfo info in list)
+        {
+            if (info.gameObject != iPlayer)
+            {
+                info.gameObject.GetComponent<PlayerController>().RpcForcePath(iPlayer.transform.position, 1, 5);
+            }
+        }
+
+    }
 
 
     // Ability2

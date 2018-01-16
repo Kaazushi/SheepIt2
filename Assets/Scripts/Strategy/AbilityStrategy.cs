@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class AbilityStrategy :NetworkBehaviour {
+public abstract class AbilityStrategy : MonoBehaviour {
 
 	[SerializeField]
 	private float _Speed = 5;
+    int m_fixedSpeed = 0;
+    Vector3 m_fixedDirection;
 
-	// Movement
-	public virtual void PlayerMovement(GameObject iPlayer)
+    // Movement
+    public virtual void PlayerMovement(GameObject iPlayer)
 	{
 		// Handle simple movement
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -17,8 +19,11 @@ public abstract class AbilityStrategy :NetworkBehaviour {
 
 		if(Vector2.Distance(mousePos, playerPos) > 0.05f)
 		{
-			Vector2 direction = mousePos - playerPos;
+
+			Vector2 direction = m_fixedSpeed != 0 ? new Vector2(m_fixedDirection.x, m_fixedDirection.y) : mousePos - playerPos;
 			direction.Normalize();
+
+            Debug.Log(direction);
 
 			if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Z))
 			{
@@ -45,8 +50,15 @@ public abstract class AbilityStrategy :NetworkBehaviour {
 	// Ability1
 	public virtual void Ability1(GameObject iPlayer) {}
 
-	// Ability2
-	public virtual void Ability2(){}
+    public void ForcePath(Vector3 a_position, int a_speed, int a_time)
+    {
+        m_fixedDirection = -1 *(a_position - gameObject.transform.position);
+        m_fixedSpeed = a_speed;
+    }
+
+
+    // Ability2
+    public virtual void Ability2(){}
 
 	// Death
 	public virtual void PlayerDeath(){}
