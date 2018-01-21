@@ -19,7 +19,7 @@ public class WolfStrategy : AbilityStrategy {
 	}
 
 	// Ability1
-	public override void Ability1() {
+	protected override void Ability1() {
 
         Debug.Log("World use fear");
         List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
@@ -35,7 +35,7 @@ public class WolfStrategy : AbilityStrategy {
 
 
     // Ability2
-    public override void Ability2() { }
+    protected override void Ability2() { }
 
 	// Death
 	public override void PlayerDeath(){}

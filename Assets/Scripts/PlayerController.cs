@@ -134,7 +134,7 @@ public class PlayerController : NetworkBehaviour {
 
         if((KeyCode)a_keyCode == KeyCode.A)
         {
-            _Strat.Ability1();
+            _Strat.UseAbility1();
         }
     }
 

@@ -16,6 +16,21 @@ public abstract class AbilityStrategy : MonoBehaviour {
 
     bool m_isInit = false;
 
+
+
+    [SerializeField]
+    protected float m_ability1Cooldown = 5.0f;
+    protected Timer m_ability1Timer;
+
+
+    private void Start()
+    {
+        m_ability1Timer = TimerFactory.INSTANCE.getTimer();
+        m_ability1Timer.StartTimer(m_ability1Cooldown);
+        m_ability1Timer.Stop();
+    }
+
+
     public void Init( GameObject a_player)
     {
         m_player = a_player;
@@ -92,8 +107,24 @@ public abstract class AbilityStrategy : MonoBehaviour {
 
 	}
 
-	// Ability1
-	public virtual void Ability1() {}
+
+    public void UseAbility1()
+    {
+        if (m_ability1Timer.IsTimeUp())
+        {
+            Ability1();
+            m_ability1Timer.RestartTimer();
+        }
+    }
+
+    // Ability1
+    protected virtual void Ability1() {}
+
+
+
+    // Ability2
+    protected virtual void Ability2(){}
+
 
     public void Fear(Vector3 a_position, float a_speed, float a_time)
     {
@@ -106,11 +137,8 @@ public abstract class AbilityStrategy : MonoBehaviour {
     }
 
 
-    // Ability2
-    public virtual void Ability2(){}
-
-	// Death
-	public virtual void PlayerDeath(){}
+    // Death
+    public virtual void PlayerDeath(){}
 
 
     private void OnDestroy()
