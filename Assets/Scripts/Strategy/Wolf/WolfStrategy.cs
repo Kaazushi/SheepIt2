@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 public class WolfStrategy : AbilityStrategy {
 
     [SerializeField]
+    float m_distanceFear = 5.0f;
     [SerializeField]
     float m_timeFear = 5.0f;
     [SerializeField]
@@ -26,6 +27,7 @@ public class WolfStrategy : AbilityStrategy {
         {
             if (info.gameObject != m_player && (info.gameObject.transform.position - transform.position).magnitude <= m_distanceFear)
             {
+                info.gameObject.GetComponent<PlayerController>().RpcFear(m_player.transform.position, m_speedFear, m_timeFear);
             }
         }
 
