@@ -11,7 +11,7 @@ public abstract class AbilityStrategy : MonoBehaviour {
     protected GameObject m_player;
 
     Vector2 m_fearDirection;
-    int m_fearSpeed = 0;
+    float m_fearSpeed = 0;
     Timer m_fearTimer;
 
     bool m_isInit = false;
@@ -24,13 +24,18 @@ public abstract class AbilityStrategy : MonoBehaviour {
         m_isInit = true;
     }
 
+    public bool IsFear()
+    {
+        return m_fearTimer && m_fearTimer.IsTimerRunning();
+    }
+
 
     //Give direction of movement
     Vector2 GetDirection()
     {
         if (!m_isInit) return Vector2.zero;
         Vector2 result = Vector2.zero;
-        if (m_fearTimer && m_fearTimer.IsTimerRunning())
+        if (IsFear())
         {
             result =  m_fearDirection;
         }
@@ -57,7 +62,7 @@ public abstract class AbilityStrategy : MonoBehaviour {
         if (!m_isInit) return 0;
 
         float result = 0;
-        if (m_fearTimer && m_fearTimer.IsTimerRunning())
+        if (IsFear())
         {
             result = m_fearSpeed;
         }
@@ -90,10 +95,14 @@ public abstract class AbilityStrategy : MonoBehaviour {
 	// Ability1
 	public virtual void Ability1() {}
 
-    public void ForcePath(Vector3 a_position, int a_speed, int a_time)
+    public void Fear(Vector3 a_position, float a_speed, float a_time)
     {
-        m_fearDirection = -1 *(a_position - gameObject.transform.position);
-        m_fearSpeed = a_speed;
+        if (!IsFear())
+        {
+            m_fearDirection = -1 * (a_position - gameObject.transform.position);
+            m_fearSpeed = a_speed;
+            m_fearTimer.StartTimer(a_time);
+        }
     }
 
 
@@ -102,4 +111,13 @@ public abstract class AbilityStrategy : MonoBehaviour {
 
 	// Death
 	public virtual void PlayerDeath(){}
+
+
+    private void OnDestroy()
+    {
+        if (m_fearTimer)
+        {
+            m_fearTimer.Destroy();
+        }
+    }
 }

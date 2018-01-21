@@ -80,4 +80,10 @@ public class Timer : MonoBehaviour{
     {
         return m_finishTime -  m_currentTime;
     }
+
+
+    public void Destroy()
+    {
+        Destroy(this);
+    }
 }

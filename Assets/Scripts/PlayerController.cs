@@ -116,11 +116,11 @@ public class PlayerController : NetworkBehaviour {
 
 
     [ClientRpc]
-    public void RpcForcePath(Vector3 a_position,int a_speed, int a_time)
+    public void RpcFear(Vector3 a_position, float a_speed, float a_time)
     {
         if (isLocalPlayer)
         {
-            _Strat.ForcePath(a_position, a_speed, a_time);
+            _Strat.Fear(a_position, a_speed, a_time);
         }
     }
 
