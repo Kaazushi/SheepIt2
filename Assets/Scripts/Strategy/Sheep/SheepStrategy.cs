@@ -23,24 +23,24 @@ public class SheepStrategy : AbilityStrategy {
 
 
     // Movement
-    public override void PlayerMovement(GameObject iPlayer)
+    public override void PlayerMovement()
 	{
-		base.PlayerMovement (iPlayer);
+		base.PlayerMovement ();
 	}
 
 
 
-	public override void Ability1(GameObject iPlayer)
+	public override void Ability1()
     {
 		float current_time = Time.time;
         // if Ability is available : spawn the prefab
 		if (m_spawnFenceTimer.IsTimeUp()) {
 			Debug.Log ("Using Fence");
-            Vector3 position = iPlayer.transform.position;
-            Matrix4x4 m = Matrix4x4.Translate(-iPlayer.transform.right);
+            Vector3 position = m_player.transform.position;
+            Matrix4x4 m = Matrix4x4.Translate(-m_player.transform.right);
             position = m.MultiplyPoint3x4(position);
 
-            Quaternion rotation = iPlayer.transform.rotation;
+            Quaternion rotation = m_player.transform.rotation;
             rotation *= Quaternion.Euler(Vector3.forward * 90);
 
             GameManager.INSTANCE.SpawnObject(m_fence, position, rotation);

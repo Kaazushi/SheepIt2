@@ -24,6 +24,7 @@ public class PlayerController : NetworkBehaviour {
             GameObject strategy = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
             strategy.transform.SetParent(gameObject.transform, false);
             _Strat = strategy.GetComponent<AbilityStrategy>();
+           _Strat.Init(gameObject);
 
     }
 
@@ -133,7 +134,7 @@ public class PlayerController : NetworkBehaviour {
 
         if((KeyCode)a_keyCode == KeyCode.A)
         {
-            _Strat.Ability1(gameObject);
+            _Strat.Ability1();
         }
     }
 
@@ -160,7 +161,7 @@ public class PlayerController : NetworkBehaviour {
             CmdTransmitInput((int)KeyCode.A);
 		}
 	
-		_Strat.PlayerMovement(gameObject);
+		_Strat.PlayerMovement();
 
     }
 

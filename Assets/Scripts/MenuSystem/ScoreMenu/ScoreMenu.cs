@@ -12,7 +12,7 @@ public class ScoreMenu : Menu {
     GameObject m_TabDisplay;
     private void OnEnable()
     {
-         if(m_TabDisplay.transform.childCount > 0)
+         if(m_TabDisplay.transform.childCount > 0 || !GameData.INSTANCE)
         {
             return;
         }
