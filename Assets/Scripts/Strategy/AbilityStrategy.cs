@@ -147,5 +147,6 @@ public abstract class AbilityStrategy : MonoBehaviour {
         {
             m_fearTimer.Destroy();
         }
+        m_ability1Timer.Destroy();
     }
 }

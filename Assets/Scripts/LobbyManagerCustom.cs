@@ -22,7 +22,7 @@ public class LobbyManagerCustom : Prototype.NetworkLobby.LobbyManager
     public override void OnServerSceneChanged(string sceneName)
     {        
         base.OnServerSceneChanged(sceneName);
-        GameManager.INSTANCE.BeginGame();
+        GameManager.INSTANCE.Init();
     }
 
 }

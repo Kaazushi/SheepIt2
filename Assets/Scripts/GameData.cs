@@ -22,12 +22,22 @@ public class GameData : NetworkBehaviour
     [ClientRpc]
     public void RpcRetrievePlayerInfo()
     {
+        if (!isServer)
+        {
+            RetrievePlayerInfo();
+        }
+    }
+
+    public void RetrievePlayerInfo()
+    {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach(GameObject go in players)
+        foreach (GameObject go in players)
         {
             AddPlayerInfo(go.GetComponent<PlayerInfo>());
         }
     }
+
+
 
     void AddPlayerInfo(PlayerInfo a_playerInfo)
     {
@@ -55,6 +65,11 @@ public class GameData : NetworkBehaviour
     public List<PlayerInfo> GetPlayerInfoList()
     {
         return m_playerList;
+    }
+
+    public int GetNumberPlayer()
+    {
+        return m_playerList.Count;
     }
 
     private void Update()

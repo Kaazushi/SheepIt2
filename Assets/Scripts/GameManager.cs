@@ -12,17 +12,18 @@ public class GameManager : NetworkBehaviour
 {
 
     public static GameManager INSTANCE;
-    GameObject[] m_players;
 
     [SerializeField]
-    GameObject m_spawnObjects;
+    GameObject m_spawnObjectsContainer;
 
 	HUDManager m_hud;
 
 	Timer m_timerRound;
 	float m_roundMaxTime = 1000;
 
-    NetworkStartPosition[] spawnPoints;
+    NetworkStartPosition[] m_spawnPoints;
+
+    bool m_isInit = false;
 
     int m_preda = -1;
     int currentSpawn = 0;
@@ -46,88 +47,101 @@ public class GameManager : NetworkBehaviour
 	void Update(){
 		if (m_timerRound.IsTimerRunning()) {
 			//Display time in UI
-
-			float timeLeft = m_timerRound.GetTimeLeft();
-			string minLeft = ((int)timeLeft / 60).ToString ();
-			string secLeft = ((int)timeLeft % 60).ToString ();
-
-			m_hud.RpcSetTimerTime (minLeft + ":" + secLeft);
+			m_hud.RpcSetTimerTime (m_timerRound + "");
 		}
 	}
 
-    public void BeginGame()
+
+    public void Init()
     {
-		m_hud = GameObject.FindGameObjectWithTag ("UI").GetComponent<HUDManager> ();
-        StartCoroutine(BeginGameCoroutine());
+        if (m_isInit)
+        {
+            return;
+        }
+        m_hud = GameObject.FindGameObjectWithTag("UI").GetComponent<HUDManager>();
+
+        StartCoroutine(InitCoroutine());
+
+
+        m_isInit = true;
     }
 
-    IEnumerator BeginGameCoroutine()
+
+    IEnumerator InitCoroutine()
     {
         yield return new WaitForSeconds(2);
-        Debug.Log("BEGIN GAME");
-
-
         List<LobbyPlayer> _lobbyPlayerList = LobbyPlayerListCustom.GetInstance().GetPlayerList();
-        m_players = GameObject.FindGameObjectsWithTag("Player");
-        spawnPoints = FindObjectsOfType<NetworkStartPosition>();
-        currentSpawn = 0;
+
         GameData.INSTANCE.RpcRetrievePlayerInfo();
+        //Rpc notsynchronize so get on server separatly
+        GameData.INSTANCE.RetrievePlayerInfo();
 
-
-        foreach (GameObject go in m_players)
-		{
-            PlayerInfo playerInfo = go.GetComponent<PlayerInfo>();
+        List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
+        m_spawnPoints = FindObjectsOfType<NetworkStartPosition>();
+        foreach (PlayerInfo playerInfo in list)
+        {
             LobbyPlayer lobbyPlayer = _lobbyPlayerList.Find(o => o.connectionToClient.connectionId == playerInfo.GetPlayerId());
-            //Debug.Log(playerInfo.GetComponent<NetworkInstanceId>());
-
-            //Debug.Log(lobbyPlayer.playerColor);
             playerInfo.setData(lobbyPlayer.playerColor, lobbyPlayer.playerName);
-            //GameData.INSTANCE.GetPlayerInfo(go.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
-
-            //go.GetComponent<PlayerController>().RpcDisplayMyColor(playerInfo._playercolor);
         }
 
+
+
+        BeginGame();
+    }
+
+
+    void BeginGame()
+    {
+        Debug.Log("BEGIN GAME");
+
+        List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
+        foreach (PlayerInfo info in list)
+        {
+            info.SetScore(0);
+        }
+
+        currentSpawn = 0;
         m_preda = -1;
+
         StartRound();
 
     }
 
-    private void DestroyChilds(Transform a_transform)
-    {
-        for( int i = a_transform.childCount - 1 ; i >= 0 ; --i )
-        {
-            Destroy(a_transform.GetChild(i).gameObject);
-        }
-    }
+
 
     private void StartRound()
     {
-        DestroyChilds(m_spawnObjects.transform);
+        Util.DestroyChilds(m_spawnObjectsContainer.transform);
   
 
-        m_preda++;
-        if (m_preda >= m_players.Length)
+        ++m_preda;
+        if (m_preda >= GameData.INSTANCE.GetNumberPlayer())
         {
             //tout le monde a été prédateur
             BeginGame();
             return;
         }
-        for (int i = 0; i < m_players.Length; i++)
+
+        List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
+
+        int i = 0;
+        foreach (PlayerInfo playerInfo in list)
         {
             AnimalType type;
             if(i == m_preda)
             {
                 type = AnimalType.WOLF;
-                m_players[i].GetComponent<PlayerController>().RpcSetPredator(true);
+                playerInfo.gameObject.GetComponent<PlayerController>().RpcSetPredator(true);
             }
             else
             {
                 type = AnimalType.SHEEP;
-                m_players[i].GetComponent<PlayerController>().RpcSetPredator(false);
+                playerInfo.gameObject.GetComponent<PlayerController>().RpcSetPredator(false);
             }
-            m_players[i].GetComponent<PlayerController>().RpcSetSkin(type);
-            m_players[i].GetComponent<PlayerController>().RpcSetPosition(spawnPoints[currentSpawn%spawnPoints.Length].transform.position);
+            playerInfo.gameObject.GetComponent<PlayerController>().RpcSetSkin(type);
+            playerInfo.gameObject.GetComponent<PlayerController>().RpcSetPosition(m_spawnPoints[currentSpawn%m_spawnPoints.Length].transform.position);
             currentSpawn++;
+            ++i;
         }
 
 		m_timerRound.StartTimer (m_roundMaxTime, () => { StartRound(); });
@@ -141,11 +155,11 @@ public class GameManager : NetworkBehaviour
         victim.RpcDestroyYourSkin();
         victim.RpcDestroyYourAbility();
         PlayerInfo predaInfos = GameData.INSTANCE.GetPlayerInfo (a_predator);
-		predaInfos._playerScore++;
+		predaInfos.IncrementScore();
 
 
         //Temp round stoping criteria
-        if (predaInfos._playerScore == m_players.Length -1)
+        if (predaInfos.GetScore() == GameData.INSTANCE.GetNumberPlayer() - 1)
         {
             StartRound();
         }
@@ -155,7 +169,7 @@ public class GameManager : NetworkBehaviour
     {
         if (isServer)
         {
-            NetworkServer.Spawn(Instantiate(a_object, a_position, a_rotation, m_spawnObjects.transform));
+            NetworkServer.Spawn(Instantiate(a_object, a_position, a_rotation, m_spawnObjectsContainer.transform));
         }
     }
 }

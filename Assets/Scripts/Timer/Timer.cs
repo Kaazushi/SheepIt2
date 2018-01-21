@@ -81,6 +81,15 @@ public class Timer : MonoBehaviour{
         return m_finishTime -  m_currentTime;
     }
 
+    public override string ToString()
+    {
+        float timeLeft = GetTimeLeft();
+        string minLeft = ((int)timeLeft / 60).ToString();
+        string secLeft = ((int)timeLeft % 60).ToString();
+
+        return minLeft + ":" + secLeft;
+    }
+
 
     public void Destroy()
     {

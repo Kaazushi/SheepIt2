@@ -8,23 +8,49 @@ public class PlayerInfo  : NetworkBehaviour/*_ pour partager et sync de partout 
 {
 
     [SyncVar(hook = "OnColorChange")]
-	public Color _playercolor = Color.black;
+	Color m_playercolor = Color.black;
     [SyncVar(hook = "OnNameChange")]
-    public string _playerName;
+    string m_playerName;
     [SyncVar(hook = "OnScoreChange")]
-    public int _playerScore;
+    int m_playerScore;
 
-	public PlayerInfo(Color iPlayerColor, string iPlayerName){
-		_playercolor = iPlayerColor;
-		_playerName = iPlayerName;
-		_playerScore = 0;
-	}
+
+    public PlayerInfo(Color iPlayerColor, string iPlayerName)
+    {
+        m_playercolor = iPlayerColor;
+        m_playerName = iPlayerName;
+        m_playerScore = 0;
+    }
+
+
+    public void SetScore(int a_score)
+    {
+        m_playerScore = a_score;
+    }
+
+    public int GetScore()
+    {
+        return m_playerScore;
+    }
+
+
+    public string GetName()
+    {
+        return m_playerName;
+    }
+
+    public void IncrementScore()
+    {
+        ++m_playerScore;
+    }
+
+
 
     public void setData(Color playerColor, string playerName)
     {
-        _playercolor = playerColor;
-        _playerName = playerName;
-        _playerScore = 0;
+        m_playercolor = playerColor;
+        m_playerName = playerName;
+        m_playerScore = 0;
     }
 
     public int GetPlayerId()
@@ -36,20 +62,22 @@ public class PlayerInfo  : NetworkBehaviour/*_ pour partager et sync de partout 
     void OnColorChange(Color a_color)
     {
         Debug.Log("ChangeColor " + a_color);
-        _playercolor = a_color;
+        m_playercolor = a_color;
     }
 
     void OnNameChange(String a_name)
     {
         Debug.Log("ChangeName " + a_name);
-        _playerName = a_name;
+        m_playerName = a_name;
     }
 
     void OnScoreChange(int a_score)
     {
         Debug.Log("ChangeScore " + a_score);
-        _playerScore = a_score;
+        m_playerScore = a_score;
     }
+
+
 
 
 }
