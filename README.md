@@ -13,17 +13,7 @@ Dans le lobby une ligne où on doit mettre "ready" est un joueur. Le autocreate 
 
 TODO:
 Game manager:
-- gérer cas d'arret quand prédateur mange (sachant que points peuvent varié si survie précédamment)
-- Refactoriser Timer (limit négative pour illimité/event quand timer fini/ etc...)
-- Network du OnCollision - voir pour améliorer le network pour éviter les collision c^oté clients qui trigger pas côté serveur 
-- Ou laisser le GameManager présent sur les client et mettre des isserveur dans tout les fonctions, et mettre neplace un système pour pas compter deux fois les points
-- Mettre isPreda dans le tableau de score
-- Passer les strategy sur des gameObjects qui possède une network Identity et déclancher les spawns dans des Cmd dans les strategy => ne fonctionne pas sur le GameManager car capte pas que c'est la même instance d'un client à l'autre ?
-- Spawn les objets dans un endroit spécial et on le clean quand le jeu redémarre, à l'intérieur du cmd de strategy, on peut appelle une méthode sur gamemanager (car il existe sur le serveur) et cette méthode gérera le fait de spawn en fils d'un certain game object
-
-NEXT:
-- map plus grande
-- refactor du code
-- ability mouton
-- ability loup
-- génération de map
+- Map plus grande généré aléatoirement
+- camera suivant le player
+- écran de fin
+- géré les déconnexions
