@@ -13,6 +13,7 @@ Dans le lobby une ligne où on doit mettre "ready" est un joueur. Le autocreate 
 
 TODO:
 Game manager:
+- mouton à travers sa barrière
 - Map plus grande généré aléatoirement
 - camera suivant le player
 - écran de fin
