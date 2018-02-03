@@ -47,6 +47,21 @@ public class GameData : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void RpcDeletePlayerInfoObsolete(int id)
+    {
+        Debug.Log("Delete Obsolete");
+        for(int i = m_playerList.Count - 1; i >= 0; --i)
+        {
+            if(m_playerList[i].GetPlayerId() == id)
+            {
+
+                m_playerList.RemoveAt(i);
+
+            }
+        }
+    }
+
     public PlayerInfo GetPlayerInfo(int iConnectionID)
     {
         PlayerInfo target;
@@ -75,6 +90,5 @@ public class GameData : NetworkBehaviour
     private void Update()
     {
     }
-
 
 }

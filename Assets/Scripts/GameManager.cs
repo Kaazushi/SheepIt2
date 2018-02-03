@@ -140,7 +140,7 @@ public class GameManager : NetworkBehaviour
             }
             playerInfo.gameObject.GetComponent<PlayerController>().RpcSetSkin(type);
             playerInfo.gameObject.GetComponent<PlayerController>().RpcSetPosition(m_spawnPoints[currentSpawn%m_spawnPoints.Length].transform.position);
-            currentSpawn++;
+            ++currentSpawn;
             ++i;
         }
 

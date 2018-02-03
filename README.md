@@ -18,3 +18,4 @@ Game manager:
 - camera suivant le player
 - écran de fin
 - géré les déconnexions
+- condition de fin de round correct pour le nombre de victimes
