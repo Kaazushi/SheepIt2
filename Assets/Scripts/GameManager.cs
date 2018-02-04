@@ -97,7 +97,7 @@ public class GameManager : NetworkBehaviour
         List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
         foreach (PlayerInfo info in list)
         {
-            info.SetScore(0);
+            info.Score = 0;
         }
 
         currentSpawn = 0;
@@ -130,38 +130,59 @@ public class GameManager : NetworkBehaviour
             AnimalType type;
             if(i == m_preda)
             {
+                playerInfo.IsPreda = true;
                 type = AnimalType.WOLF;
                 playerInfo.gameObject.GetComponent<PlayerController>().RpcSetPredator(true);
             }
             else
             {
+                playerInfo.IsPreda = false;
                 type = AnimalType.SHEEP;
                 playerInfo.gameObject.GetComponent<PlayerController>().RpcSetPredator(false);
             }
             playerInfo.gameObject.GetComponent<PlayerController>().RpcSetSkin(type);
             playerInfo.gameObject.GetComponent<PlayerController>().RpcSetPosition(m_spawnPoints[currentSpawn%m_spawnPoints.Length].transform.position);
+            playerInfo.IsAlive = true;
             ++currentSpawn;
             ++i;
         }
 
-		m_timerRound.StartTimer (m_roundMaxTime, () => { StartRound(); });
+		m_timerRound.StartTimer (m_roundMaxTime, () => { EndOfRound(); /*StartRound();*/ });
     }
 
 
+    private void EndOfRound()
+    {
+        List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
+        foreach (PlayerInfo playerInfo in list)
+        {
+            if(playerInfo.IsAlive && !playerInfo.IsPreda)
+            {
+                playerInfo.IncrementScore();
+            }
+
+        }
+
+
+            StartRound();
+    }
+
+    //think to change the way to put a preda and handle the TAB disparition && synchronize the gamedata remove && anchor of tab menu
     [Command]
     public void CmdAddPoint(int a_predator, int a_victim)
     {
         PlayerController victim = GameData.INSTANCE.GetPlayerInfo(a_victim).gameObject.GetComponent<PlayerController>();
         victim.RpcDestroyYourSkin();
         victim.RpcDestroyYourAbility();
+        GameData.INSTANCE.GetPlayerInfo(a_victim).IsAlive = false;
         PlayerInfo predaInfos = GameData.INSTANCE.GetPlayerInfo (a_predator);
 		predaInfos.IncrementScore();
 
 
-        //Temp round stoping criteria
-        if (predaInfos.GetScore() == GameData.INSTANCE.GetNumberPlayer() - 1)
+        List<PlayerInfo> alive = GameData.INSTANCE.GetPlayerInfoList().FindAll(o => o.IsAlive && !o.IsPreda);
+        if (alive.Count == 0)
         {
-            StartRound();
+            EndOfRound();
         }
     }
 

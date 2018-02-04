@@ -8,49 +8,81 @@ public class PlayerInfo  : NetworkBehaviour/*_ pour partager et sync de partout 
 {
 
     [SyncVar(hook = "OnColorChange")]
-	Color m_playercolor = Color.black;
+	Color m_color = Color.black;
     [SyncVar(hook = "OnNameChange")]
-    string m_playerName;
+    string m_name;
     [SyncVar(hook = "OnScoreChange")]
-    int m_playerScore;
+    int m_score;
+    [SyncVar(hook = "OnIsAliveChange")]
+    bool m_isAlive;
+    [SyncVar(hook = "OnIsPredaChange")]
+    bool m_isPreda;
+
 
 
     public PlayerInfo(Color iPlayerColor, string iPlayerName)
     {
-        m_playercolor = iPlayerColor;
-        m_playerName = iPlayerName;
-        m_playerScore = 0;
+        m_color = iPlayerColor;
+        m_name = iPlayerName;
+        Score = 0;
     }
 
-
-    public void SetScore(int a_score)
+    public bool IsAlive
     {
-        m_playerScore = a_score;
+        get
+        {
+            return m_isAlive;
+        }
+
+        set
+        {
+            m_isAlive = value;
+        }
     }
 
-    public int GetScore()
+    public int Score
     {
-        return m_playerScore;
+        get
+        {
+            return m_score;
+        }
+
+        set
+        {
+            m_score = value;
+        }
     }
 
+    public bool IsPreda
+    {
+        get
+        {
+            return m_isPreda;
+        }
+
+        set
+        {
+            m_isPreda = value;
+        }
+    }
 
     public string GetName()
     {
-        return m_playerName;
+        return m_name;
     }
 
     public void IncrementScore()
     {
-        ++m_playerScore;
+        ++Score;
     }
 
 
 
     public void setData(Color playerColor, string playerName)
     {
-        m_playercolor = playerColor;
-        m_playerName = playerName;
-        m_playerScore = 0;
+        m_color = playerColor;
+        m_name = playerName;
+        Score = 0;
     }
 
     public int GetPlayerId()
@@ -62,22 +94,31 @@ public class PlayerInfo  : NetworkBehaviour/*_ pour partager et sync de partout 
     void OnColorChange(Color a_color)
     {
         Debug.Log("ChangeColor " + a_color);
-        m_playercolor = a_color;
+        m_color = a_color;
     }
 
     void OnNameChange(String a_name)
     {
         Debug.Log("ChangeName " + a_name);
-        m_playerName = a_name;
+        m_name = a_name;
     }
 
     void OnScoreChange(int a_score)
     {
         Debug.Log("ChangeScore " + a_score);
-        m_playerScore = a_score;
+        Score = a_score;
     }
 
+    void OnIsAliveChange(bool a_bool)
+    {
+        Debug.Log("ChangeIsAlive " + a_bool);
+        IsAlive = a_bool;
+    }
 
-
+    void OnIsPredaChange(bool a_bool)
+    {
+        Debug.Log("ChangeIsPreda " + a_bool);
+        IsPreda = a_bool;
+    }
 
 }

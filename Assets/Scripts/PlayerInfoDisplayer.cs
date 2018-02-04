@@ -18,7 +18,7 @@ public class PlayerInfoDisplayer : MonoBehaviour {
         if (m_playerInfo)
         {
             m_name.text = m_playerInfo.GetName();
-            m_score.text = m_playerInfo.GetScore() + "";
+            m_score.text = m_playerInfo.Score + "";
         }
 	}
 
