@@ -53,7 +53,7 @@ public class GameData : NetworkBehaviour
         Debug.Log("Delete Obsolete");
         for(int i = m_playerList.Count - 1; i >= 0; --i)
         {
-            if(m_playerList[i].GetPlayerId() == id)
+            if(m_playerList[i].connectionToClient == null || m_playerList[i].GetPlayerId() == id)
             {
 
                 m_playerList.RemoveAt(i);
