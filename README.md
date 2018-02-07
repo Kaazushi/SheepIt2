@@ -16,6 +16,9 @@ Game manager:
 - Map généré aléatoirement
 - écran de fin
 - géré les déconnexions
+- Bug HUD
+- Probleme double skin detruit
+
 
 NEXT:
 - fun stuff: nouvelles espèces et modes de jeu si le temps il y a
