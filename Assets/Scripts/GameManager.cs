@@ -132,13 +132,11 @@ public class GameManager : NetworkBehaviour
             {
                 playerInfo.IsPreda = true;
                 type = AnimalType.WOLF;
-                playerInfo.gameObject.GetComponent<PlayerController>().RpcSetPredator(true);
             }
             else
             {
                 playerInfo.IsPreda = false;
                 type = AnimalType.SHEEP;
-                playerInfo.gameObject.GetComponent<PlayerController>().RpcSetPredator(false);
             }
             playerInfo.gameObject.GetComponent<PlayerController>().RpcSetSkin(type);
             playerInfo.gameObject.GetComponent<PlayerController>().RpcSetPosition(m_spawnPoints[currentSpawn%m_spawnPoints.Length].transform.position);
@@ -167,7 +165,8 @@ public class GameManager : NetworkBehaviour
             StartRound();
     }
 
-    //think to change the way to put a preda and handle the TAB disparition && synchronize the gamedata remove && anchor of tab menu
+    //think to change the way to put a preda and handle the TAB disparition && synchronize the gamedata remove && anchor of tab menu && finir le jeu si ya plus personne en vie après la deco
+    // doit^^etreconnectionToServer du côté client et connectionToClient du côté client
     [Command]
     public void CmdAddPoint(int a_predator, int a_victim)
     {

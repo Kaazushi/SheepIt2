@@ -5,8 +5,6 @@ using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour {
 
-
-	private bool isPredator = false;
 	private AbilityStrategy _Strat = new SheepStrategy();
 
     private void Start()
@@ -41,9 +39,9 @@ public class PlayerController : NetworkBehaviour {
         {
             if (coll.collider.CompareTag("PlayerSkin"))
             {
-                bool isCollPredator = coll.gameObject.GetComponent<PlayerController>().getIsPredator();
+                bool isCollPredator = coll.gameObject.GetComponent<PlayerInfo>().IsPreda;
                 //if this object is a predator and the collison is a prey
-                if (!isPredator && isCollPredator)
+                if (!GetComponent<PlayerInfo>().IsPreda && isCollPredator)
                 {
                     DestroyYourSkin();
                     DestroyYourAbility();
@@ -89,11 +87,6 @@ public class PlayerController : NetworkBehaviour {
         }
     }
 
-
-    [ClientRpc]
-	public void RpcSetPredator (bool isPred){
-		isPredator = isPred;
-	}
 
     [ClientRpc]
     public void RpcDisplayMyColor(Color color)
@@ -173,7 +166,4 @@ public class PlayerController : NetworkBehaviour {
     }
 
 
-    public bool getIsPredator(){
-		return isPredator;
-	}
 }
