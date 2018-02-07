@@ -27,6 +27,9 @@ public class GameManager : NetworkBehaviour
 
     int m_preda = -1;
     int currentSpawn = 0;
+    int pilou = 0;
+    bool m_roundStarted = false;
+
 
     void Start()
     {
@@ -48,8 +51,17 @@ public class GameManager : NetworkBehaviour
 		if (m_timerRound.IsTimerRunning()) {
 			//Display time in UI
 			m_hud.RpcSetTimerTime (m_timerRound + "");
+
+            
 		}
-	}
+       /* List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
+        foreach(PlayerInfo info in list)
+        {
+        //    info.IncrementScore();
+        }*/
+
+
+    }
 
 
     public void Init()
@@ -92,7 +104,8 @@ public class GameManager : NetworkBehaviour
 
     void BeginGame()
     {
-        Debug.Log("BEGIN GAME");
+        Debug.Log("BEGIN GAME "  + pilou);
+        ++pilou;
 
         List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
         foreach (PlayerInfo info in list)
@@ -115,6 +128,7 @@ public class GameManager : NetworkBehaviour
   
 
         ++m_preda;
+        Debug.Log("Preda " + m_preda);
         if (m_preda >= GameData.INSTANCE.GetNumberPlayer())
         {
             //tout le monde a été prédateur
@@ -123,10 +137,11 @@ public class GameManager : NetworkBehaviour
         }
 
         List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
-
+        Debug.Log("count players" + list);
         int i = 0;
         foreach (PlayerInfo playerInfo in list)
         {
+            Debug.Log("NamePlayer " + playerInfo.GetName());
             AnimalType type;
             if(i == m_preda)
             {
@@ -146,11 +161,21 @@ public class GameManager : NetworkBehaviour
         }
 
 		m_timerRound.StartTimer (m_roundMaxTime, () => { EndOfRound(); /*StartRound();*/ });
+        StartCoroutine(StartRoundCoroutine());
     }
 
+    IEnumerator StartRoundCoroutine()
+    {
+        yield return new WaitForSeconds(0.2f);
+        m_roundStarted = true;
+
+    }
 
     private void EndOfRound()
     {
+
+        Debug.Log("EndOfRound");
+        m_roundStarted = false;
         List<PlayerInfo> list = GameData.INSTANCE.GetPlayerInfoList();
         foreach (PlayerInfo playerInfo in list)
         {
@@ -162,14 +187,20 @@ public class GameManager : NetworkBehaviour
         }
 
 
-            StartRound();
+        StartRound();
     }
 
     //think to change the way to put a preda and handle the TAB disparition && synchronize the gamedata remove && anchor of tab menu && finir le jeu si ya plus personne en vie après la deco
     // doit^^etreconnectionToServer du côté client et connectionToClient du côté client
-    [Command]
-    public void CmdAddPoint(int a_predator, int a_victim)
+    
+    public void AddPoint(int a_predator, int a_victim)
     {
+        if (!m_roundStarted)
+        {
+            return;
+        }
+
+        Debug.Log("add Point");
         PlayerController victim = GameData.INSTANCE.GetPlayerInfo(a_victim).gameObject.GetComponent<PlayerController>();
         victim.RpcDestroyYourSkin();
         victim.RpcDestroyYourAbility();
@@ -181,6 +212,8 @@ public class GameManager : NetworkBehaviour
         List<PlayerInfo> alive = GameData.INSTANCE.GetPlayerInfoList().FindAll(o => o.IsAlive && !o.IsPreda);
         if (alive.Count == 0)
         {
+            Debug.Log("Add Point end of round");
+
             EndOfRound();
         }
     }

@@ -17,20 +17,25 @@ public class PlayerController : NetworkBehaviour {
     [ClientRpc]
 	public void RpcSetSkin(AnimalType type)
 	{
-			if (gameObject.GetComponentInChildren<Skin> () != null) {
-				Destroy (gameObject.GetComponentInChildren<Skin> ().gameObject);
-			}
+		if (gameObject.GetComponentInChildren<Skin> () != null) {
+			Destroy (gameObject.GetComponentInChildren<Skin> ().gameObject);
+            Debug.Log("My children : " + transform.childCount);
+		}
+        if (gameObject.GetComponentInChildren<AbilityStrategy>() != null)
+        {
+            Destroy(gameObject.GetComponentInChildren<AbilityStrategy>().gameObject);
+        }
 
-            GameObject skin = SkinFactory.INSTANCE.getSkin(type);
-            skin.transform.SetParent(gameObject.transform, false);
+        GameObject skin = SkinFactory.INSTANCE.getSkin(type);
 
-            //set corresponding strategy
+        skin.transform.SetParent(gameObject.transform, false);
+
+        //set corresponding strategy
             
-            GameObject strategy = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
-            strategy.transform.SetParent(gameObject.transform, false);
-            _Strat = strategy.GetComponent<AbilityStrategy>();
-           _Strat.Init(gameObject);
-
+        GameObject strategy = AbilityStrategyFactory.INSTANCE.getAbilityStrategy(type);
+        strategy.transform.SetParent(gameObject.transform, false);
+        _Strat = strategy.GetComponent<AbilityStrategy>();
+        _Strat.Init(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -47,7 +52,7 @@ public class PlayerController : NetworkBehaviour {
                     DestroyYourAbility();
 
                     Debug.Log("Collided between predator and prey");
-                    GameManager.INSTANCE.CmdAddPoint(coll.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
+                    GameManager.INSTANCE.AddPoint(coll.gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId, gameObject.GetComponent<NetworkIdentity>().clientAuthorityOwner.connectionId);
                 }
             }
         }
@@ -113,6 +118,7 @@ public class PlayerController : NetworkBehaviour {
             transform.position = a_position;
         }
     }
+
 
 
     [ClientRpc]

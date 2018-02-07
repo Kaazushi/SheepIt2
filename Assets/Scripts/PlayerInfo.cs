@@ -87,7 +87,7 @@ public class PlayerInfo  : NetworkBehaviour/*_ pour partager et sync de partout 
 
     public int GetPlayerId()
     {
-        return connectionToClient.connectionId;
+        return connectionToClient == null ? connectionToServer.connectionId : connectionToClient.connectionId;
     }
 
 
