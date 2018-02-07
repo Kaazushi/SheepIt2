@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6b1b93ac9f770ef4cbf3a502342fa87b
-timeCreated: 1505913341
+timeCreated: 1517603372
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -36,10 +36,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 8, y: 27, z: 2, w: 15}
   spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -58,10 +58,51 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: -83, y: 36}
+      - {x: -139, y: 31}
+      - {x: -142, y: 18}
+      - {x: -142, y: -21}
+      - {x: -138, y: -24}
+      - {x: 125, y: -24}
+      - {x: 148, y: -14}
+      - {x: 148, y: 23}
+      - {x: 139, y: 36}
   spritePackingTag: 
   userData: 
   assetBundleName: 

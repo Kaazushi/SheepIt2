@@ -9,7 +9,14 @@ public class PlayerController : NetworkBehaviour {
 	private bool isPredator = false;
 	private AbilityStrategy _Strat = new SheepStrategy();
 
-	[ClientRpc]
+    private void Start()
+    {
+        //Deactivate the main camera and activate the player camera
+        if(isLocalPlayer)
+        Camera.main.GetComponent<CameraFollow>().SetPlayerToFollow(gameObject);
+    }
+
+    [ClientRpc]
 	public void RpcSetSkin(AnimalType type)
 	{
 			if (gameObject.GetComponentInChildren<Skin> () != null) {
