@@ -13,9 +13,9 @@ Dans le lobby une ligne où on doit mettre "ready" est un joueur. Le autocreate 
 
 TODO:
 Game manager:
-- mouton à travers sa barrière
-- Map plus grande généré aléatoirement
-- camera suivant le player
+- Map généré aléatoirement
 - écran de fin
 - géré les déconnexions
-- condition de fin de round correct pour le nombre de victimes
+
+NEXT:
+- fun stuff: nouvelles espèces et modes de jeu si le temps il y a
