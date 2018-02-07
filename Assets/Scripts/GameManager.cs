@@ -19,7 +19,8 @@ public class GameManager : NetworkBehaviour
 	HUDManager m_hud;
 
 	Timer m_timerRound;
-	float m_roundMaxTime = 1000;
+    [SerializeField]
+    float m_roundMaxTime = 40;
 
     NetworkStartPosition[] m_spawnPoints;
 
